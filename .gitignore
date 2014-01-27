@@ -1,0 +1,28 @@
+# Copyright (c) 2014 Daniel Paul Searles
+#
+# See the file LICENSE in the root of this project for copying permission.
+
+# Xcode
+.DS_Store
+*/build/*
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+profile
+*.moved-aside
+DerivedData
+.idea/
+*.hmap
+*.xccheckout
+
+#CocoaPods
+Pods
+
+#objective-octocat-notifications ignores
+GithubKeys.h

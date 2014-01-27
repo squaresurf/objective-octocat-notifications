@@ -1,0 +1,11 @@
+Objective Octocat Notifications
+Copyright 2014 Daniel Paul Searles
+
+The portions of this software responsible for making network calls to the
+Github api was developed by Mattt Thompson (http://mattt.me/) and released on
+Github (https://github.com/AFNetworking/AFNetworking). It has been linked to
+this software via a git submodule.
+
+Some of the status bar code was copied from the Popup
+(https://github.com/shpakovski/Popup) example app developed by Vadim Shpakovski
+(http://www.shpakovski.com/).
