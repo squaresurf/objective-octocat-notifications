@@ -14,6 +14,7 @@
 static NSString * const kAFGithubBaseURLString = @"https://api.github.com/";
 static NSString * const kOAuthBaseUrl = @"https://github.com/login/oauth/";
 static float      const kPollInterval = 60.0;
+static NSString * const kAppVersion = @"0.1.0";
 
 @implementation AFGithubClient
 
@@ -25,6 +26,7 @@ static float      const kPollInterval = 60.0;
     }
 
     [[AFGithubClient sharedClient] setDefaultHeader:@"Authorization" value:[[NSString alloc] initWithFormat:@"token %@", token]];
+    [[AFGithubClient sharedClient] checkForNewRelease];
     [[AFGithubClient sharedClient] getNotifications];
 }
 
@@ -49,6 +51,28 @@ static float      const kPollInterval = 60.0;
 	[self setDefaultHeader:@"Accept" value:@"application/json"];
 
     return self;
+}
+
+- (void)checkForNewRelease
+{
+    NSString *tags = @"repos/squaresurf/objective-octocat-notifications/tags";
+    
+    [[AFGithubClient sharedClient] getPath:tags parameters:@{} success:^(AFHTTPRequestOperation *operation, id response) {
+        if ([response count] > 0) {
+            NSString *latestVersion = response[0][@"name"];
+            if (![kAppVersion isEqualToString:latestVersion]) {
+                NSString *latestUrl = [NSString stringWithFormat:@"https://github.com/squaresurf/objective-octocat-notifications/releases/%@", latestVersion];
+                
+                NSUserNotification *macNotification = [[NSUserNotification alloc] init];
+                macNotification.title = @"New Release!";
+                macNotification.informativeText = @"Click here to download the latest release of Objective Octocat Notifications.";
+                macNotification.userInfo = @{@"url": latestUrl};
+                [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:macNotification];
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, id json) {
+        NSLog(@"error: %@", json);
+    }];
 }
 
 - (void)getNotifications
@@ -95,7 +119,6 @@ static float      const kPollInterval = 60.0;
         NSLog(@"error: %@", json);
         [self setTimerWithPoll:kPollInterval];
     }];
-    
 }
 
 - (void)setTimerWithPoll:(float)poll {

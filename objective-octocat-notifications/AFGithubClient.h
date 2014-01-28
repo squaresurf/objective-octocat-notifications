@@ -14,6 +14,8 @@
 
 + (AFGithubClient *)sharedClient;
 
+- (void)checkForNewRelease;
+
 - (void)getNotifications;
 
 - (void)setTimerWithPoll:(float) poll;
