@@ -2,7 +2,8 @@
 
 ## Workflow:
 - Ensure an [issue](https://github.com/squaresurf/objective-octocat-notifications/issues) exists before making a pull request.
-- Open a pull request to the development branch.
+- Create a branch for your pull request.
+- Open a pull request from your feature branch to the master branch.
 
 ## Authentication
 
