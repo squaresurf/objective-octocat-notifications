@@ -59,24 +59,25 @@ static NSMutableDictionary * AFKeychainQueryDictionaryWithIdentifier(NSString *i
 
 - (NSString *)getToken {
     if ([self token] == nil) {
-        NSString *token = [self keychainRetrieveToken];
-        if (token == nil) {
-            #if defined(GITHUB_CLIENT_ID) && defined(GITHUB_CLIENT_SECRET)
-                // Start OAuth2
-                NSURL *oauthUrl = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"%@authorize?client_id=%@&scope=notifications&state=%@", kAFGithubOAuthBaseURL, GITHUB_CLIENT_ID, [self state]]];
-                if( ![[NSWorkspace sharedWorkspace] openURL:oauthUrl] ) {
-                    NSLog(@"Failed to open url: %@",[oauthUrl description]);
-                }
-            #else
-                #if defined(GITHUB_TOKEN)
-                    self.token = GITHUB_TOKEN;
+        #if defined(GITHUB_TOKEN)
+            self.token = GITHUB_TOKEN;
+        #else
+            NSString *token = [self keychainRetrieveToken];
+            if (token == nil) {
+                #if defined(GITHUB_CLIENT_ID) && defined(GITHUB_CLIENT_SECRET)
+                    // Start OAuth2
+                    NSURL *oauthUrl = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"%@authorize?client_id=%@&scope=notifications&state=%@", kAFGithubOAuthBaseURL, GITHUB_CLIENT_ID, [self state]]];
+                    if( ![[NSWorkspace sharedWorkspace] openURL:oauthUrl] ) {
+                        NSLog(@"Failed to open url: %@",[oauthUrl description]);
+                    }
                 #else
                     #error @"Missing GITHUB_TOKEN or GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET. Please read the authentication section of the README."
                 #endif
-            #endif
-        } else {
-            self.token = token;
-        }
+            } else {
+                self.token = token;
+            }
+        
+#endif
     }
     
     return [self token];
@@ -99,8 +100,6 @@ static NSMutableDictionary * AFKeychainQueryDictionaryWithIdentifier(NSString *i
             [self keychainStoreToken];
             [AFGithubClient startNotifications];
         } failure:nil];
-    #else
-        [AFGithubClient startNotifications];
     #endif
 }
 
