@@ -65,7 +65,7 @@ void *kContextActivePanel = &kContextActivePanel;
 {
     NSURL *url = [NSURL URLWithString:[[event paramDescriptorForKeyword:keyDirectObject] stringValue]];
     
-    if ([[url host] isEqualToString:@"oauthCallback"]) {
+    if ([[url host] caseInsensitiveCompare:@"oauthCallback"] == NSOrderedSame) {
         [[AFGithubOAuth sharedClient] oauthCallbackWith:url];
     } else {
         NSLog(@"Don't know what to do with this url: %@", url);
