@@ -116,8 +116,13 @@ static NSString * const kAppVersion = @"0.1.1";
         float poll = (max_poll_interval > kPollInterval) ? max_poll_interval : kPollInterval;
         [self setTimerWithPoll:poll];
     } failure:^(AFHTTPRequestOperation *operation, id json) {
-        NSLog(@"error: %@", json);
-        [self setTimerWithPoll:kPollInterval];
+        if ([operation.response statusCode] == 401) {
+            [AFGithubOAuth clearToken];
+            [AFGithubClient startNotifications];
+        } else {
+            NSLog(@"error: %@", json);
+            [self setTimerWithPoll:kPollInterval];
+        }
     }];
 }
 

@@ -14,6 +14,8 @@
 
 + (AFGithubOAuth *)sharedClient;
 
++ (void)clearToken;
+
 - (NSString *)getToken;
 
 - (void)oauthCallbackWith:(NSURL *)url;

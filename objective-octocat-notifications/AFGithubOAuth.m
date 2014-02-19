@@ -32,6 +32,11 @@ static NSMutableDictionary * AFKeychainQueryDictionaryWithIdentifier(NSString *i
     return _sharedClient;
 }
 
++ (void)clearToken {
+    [[self sharedClient] setValue:nil forKey:@"token"];
+    [[self sharedClient] keychainDeleteToken];
+}
+
 - (id)initWithBaseURL:(NSURL *)url {
     self = [super initWithBaseURL:url];
     if (!self) {
@@ -145,10 +150,18 @@ static NSMutableDictionary * AFKeychainQueryDictionaryWithIdentifier(NSString *i
     return [[NSString alloc] initWithData:(__bridge_transfer NSData *)result encoding:NSUTF8StringEncoding];
 }
 
-- (BOOL)keychainDeleteToken{
+- (BOOL)keychainDeleteToken {
     NSMutableDictionary *queryDictionary = [[self keychainQueryDictionary] mutableCopy];
+    [queryDictionary setObject:(__bridge id)kCFBooleanTrue forKey:(__bridge id)kSecReturnRef];
+
+    SecKeychainItemRef item = nil;
+
+    if (SecItemCopyMatching((__bridge CFDictionaryRef)queryDictionary, (CFTypeRef *)&item) != errSecSuccess) {
+        NSLog(@"Unable to find OAuth Token in Keychain for deletion.");
+        return NO;
+    }
     
-    OSStatus status = SecItemDelete((__bridge CFDictionaryRef)queryDictionary);
+    OSStatus status = SecKeychainItemDelete(item);
     
     if (status != errSecSuccess) {
         NSLog(@"Unable to delete OAuth Token in Keychain.");
