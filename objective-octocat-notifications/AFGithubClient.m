@@ -104,10 +104,15 @@ static NSString * const kAppVersion = @"0.1.1";
                 url = [url stringByReplacingOccurrencesOfString:@"/pulls/" withString:@"/pull/"];
                 url = [url stringByReplacingOccurrencesOfString:@"/repos/" withString:@"/"];
                 
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
+                NSDate *notificationDate = [dateFormatter dateFromString:notification[@"updated_at"]];
+
                 NSUserNotification *macNotification = [[NSUserNotification alloc] init];
                 macNotification.title = notification[@"subject"][@"type"];
                 macNotification.informativeText = notification[@"subject"][@"title"];
                 macNotification.userInfo = @{@"id": notification[@"id"], @"url": url};
+                macNotification.deliveryDate = notificationDate;
                 [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:macNotification];
             }
         }
