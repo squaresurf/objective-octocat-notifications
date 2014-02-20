@@ -48,6 +48,11 @@ void *kContextActivePanel = &kContextActivePanel;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
+    NSUserNotification *userNotification = [notification.userInfo objectForKey:@"NSApplicationLaunchUserNotificationKey"];
+    if (userNotification) {
+        [self userNotificationCenter:[NSUserNotificationCenter defaultUserNotificationCenter] didActivateNotification:userNotification];
+    }
+
     // Install icon into the menu bar
     self.menubarController = [[MenubarController alloc] init];
 
