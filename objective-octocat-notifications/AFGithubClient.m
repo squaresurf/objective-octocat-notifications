@@ -60,7 +60,7 @@ static NSString * const kAppVersion = @"0.1.1";
     [[AFGithubClient sharedClient] getPath:tags parameters:@{} success:^(AFHTTPRequestOperation *operation, id response) {
         if ([response count] > 0) {
             NSString *latestVersion = response[0][@"name"];
-            if (![kAppVersion isEqualToString:latestVersion]) {
+            if ([kAppVersion compare:latestVersion options:NSNumericSearch] == NSOrderedAscending) {
                 NSString *latestUrl = [NSString stringWithFormat:@"https://github.com/squaresurf/objective-octocat-notifications/releases/%@", latestVersion];
                 
                 NSUserNotification *macNotification = [[NSUserNotification alloc] init];
