@@ -73,6 +73,13 @@ static NSString * const kAppVersion = @"0.1.1";
     } failure:^(AFHTTPRequestOperation *operation, id json) {
         NSLog(@"error: %@", json);
     }];
+
+    // Check again in a day.
+    [NSTimer scheduledTimerWithTimeInterval:60 * 60 * 24
+                                     target:self
+                                   selector:@selector(checkForNewRelease)
+                                   userInfo:nil
+                                    repeats:NO];
 }
 
 - (void)getNotifications
