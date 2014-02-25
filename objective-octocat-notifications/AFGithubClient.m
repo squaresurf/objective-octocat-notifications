@@ -117,6 +117,7 @@ static NSString * const kAppVersion = @"0.2.0";
 
                 NSUserNotification *macNotification = [[NSUserNotification alloc] init];
                 macNotification.title = notification[@"subject"][@"type"];
+                macNotification.subtitle = notification[@"repository"][@"full_name"];
                 macNotification.informativeText = notification[@"subject"][@"title"];
                 macNotification.userInfo = @{@"id": notification[@"id"], @"url": url};
                 macNotification.deliveryDate = notificationDate;
