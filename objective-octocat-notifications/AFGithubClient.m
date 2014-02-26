@@ -14,7 +14,6 @@
 static NSString * const kAFGithubBaseURLString = @"https://api.github.com/";
 static NSString * const kOAuthBaseUrl = @"https://github.com/login/oauth/";
 static float      const kPollInterval = 60.0;
-static NSString * const kAppVersion = @"0.2.0";
 
 @implementation AFGithubClient
 
