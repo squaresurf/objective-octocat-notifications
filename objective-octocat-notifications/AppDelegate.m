@@ -40,6 +40,11 @@ void *kContextActivePanel = &kContextActivePanel;
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification
 {
+    NSURLCache *sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:0
+                                                            diskCapacity:0
+                                                                diskPath:nil];
+    [NSURLCache setSharedURLCache:sharedCache];
+    
     [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
     
     // This calls objective-octocat-notifications:// uri scheme handler

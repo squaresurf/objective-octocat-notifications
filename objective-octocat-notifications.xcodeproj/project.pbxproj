@@ -181,8 +181,8 @@
 		FF8CCD46179A90C800B19CDD = {
 			isa = PBXGroup;
 			children = (
-				FF381EAD179E2F6B00A753B7 /* AFNetworking */,
 				FF8CCD58179A90C900B19CDD /* objective-octocat-notifications */,
+				FF381EAD179E2F6B00A753B7 /* AFNetworking */,
 				FF8CCD51179A90C800B19CDD /* Frameworks */,
 				FF8CCD50179A90C800B19CDD /* Products */,
 			);
@@ -271,7 +271,7 @@
 		FF8CCD47179A90C800B19CDD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = SquareSurf;
 			};
 			buildConfigurationList = FF8CCD4A179A90C800B19CDD /* Build configuration list for PBXProject "objective-octocat-notifications" */;
@@ -382,7 +382,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -415,7 +414,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
