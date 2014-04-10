@@ -23,6 +23,5 @@
 - (void)activatedNotification:(NSUserNotification *) notification;
 
 @property (strong) NSString *state;
-@property (strong) NSString *since_date;
 
 @end

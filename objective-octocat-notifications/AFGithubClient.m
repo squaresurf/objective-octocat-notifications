@@ -73,6 +73,7 @@ static float      const kPollInterval = 60.0;
         NSLog(@"error: %@", json);
     }];
 
+
     // Check again in a day.
     [NSTimer scheduledTimerWithTimeInterval:60 * 60 * 24
                                      target:self
@@ -85,45 +86,54 @@ static float      const kPollInterval = 60.0;
 {
     AppDelegate *appDelegate = [NSApp delegate];
 
-    if ([[[NSUserNotificationCenter defaultUserNotificationCenter] deliveredNotifications] count] == 0) {
-        appDelegate.menubarController.statusItemView.hasNotifications = NO;
-    }
+    NSUserNotificationCenter *defaultUserNotificationCenter = [NSUserNotificationCenter defaultUserNotificationCenter];
+    NSArray *macNotifications = [defaultUserNotificationCenter deliveredNotifications];
 
-    NSDictionary *params = @{};
-    if (self.since_date) {
-        params = @{@"since":self.since_date};
-    }
-    
-    [[AFGithubClient sharedClient] getPath:@"notifications" parameters:params success:^(AFHTTPRequestOperation *operation, id response) {
+    [[AFGithubClient sharedClient] getPath:@"notifications" parameters:@{} success:^(AFHTTPRequestOperation *operation, id response) {
+        NSMutableDictionary *activeNotifications = [[NSMutableDictionary alloc] init];
+        
+        for (NSUserNotification *notification in macNotifications) {
+            bool removeNotification = YES;
+            NSString *notificationId = [[notification userInfo] valueForKey:@"id"];
+            for (id githubNotification in response) {
+                if ([notificationId compare:githubNotification[@"id"]] == NSOrderedSame) {
+                    removeNotification = NO;
+                    break;
+                }
+            }
+            
+            if (removeNotification) {
+                [defaultUserNotificationCenter removeDeliveredNotification:notification];
+            } else {
+                [activeNotifications setObject:notification forKey:notificationId];
+            }
+        }
+        
         if ([response count] > 0) {
             appDelegate.menubarController.statusItemView.hasNotifications = YES;
 
-            BOOL first = YES;
             for (id notification in response) {
-                if (first) {
-                    first = NO;
-                    self.since_date = notification[@"updated_at"];
+                if ([activeNotifications objectForKey:notification[@"id"]] == Nil) {
+                    NSString *url = notification[@"subject"][@"url"];
+                    url = [url stringByReplacingOccurrencesOfString:@"api.github.com" withString:@"github.com"];
+                    url = [url stringByReplacingOccurrencesOfString:@"/pulls/" withString:@"/pull/"];
+                    url = [url stringByReplacingOccurrencesOfString:@"/repos/" withString:@"/"];
+                    
+                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
+                    NSDate *notificationDate = [dateFormatter dateFromString:notification[@"updated_at"]];
+                    
+                    NSUserNotification *macNotification = [[NSUserNotification alloc] init];
+                    macNotification.title = notification[@"subject"][@"type"];
+                    macNotification.subtitle = notification[@"repository"][@"full_name"];
+                    macNotification.informativeText = notification[@"subject"][@"title"];
+                    macNotification.userInfo = @{@"id": notification[@"id"], @"url": url};
+                    macNotification.deliveryDate = notificationDate;
+                    [defaultUserNotificationCenter deliverNotification:macNotification];
                 }
-                
-                NSString *url = notification[@"subject"][@"url"];
-                url = [url stringByReplacingOccurrencesOfString:@"api.github.com" withString:@"github.com"];
-                url = [url stringByReplacingOccurrencesOfString:@"/pulls/" withString:@"/pull/"];
-                url = [url stringByReplacingOccurrencesOfString:@"/repos/" withString:@"/"];
-                
-                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
-                NSDate *notificationDate = [dateFormatter dateFromString:notification[@"updated_at"]];
-
-                NSUserNotification *macNotification = [[NSUserNotification alloc] init];
-                macNotification.title = notification[@"subject"][@"type"];
-                macNotification.subtitle = notification[@"repository"][@"full_name"];
-                macNotification.informativeText = notification[@"subject"][@"title"];
-                macNotification.userInfo = @{@"id": notification[@"id"], @"url": url};
-                macNotification.deliveryDate = notificationDate;
-                [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:macNotification];
             }
         }
-
+        
         float max_poll_interval = [[[operation response] allHeaderFields][@"X-Poll-Interval"] floatValue];
         float poll = (max_poll_interval > kPollInterval) ? max_poll_interval : kPollInterval;
         [self setTimerWithPoll:poll];
@@ -136,6 +146,10 @@ static float      const kPollInterval = 60.0;
             [self setTimerWithPoll:kPollInterval];
         }
     }];
+    
+    if ([[defaultUserNotificationCenter deliveredNotifications] count] == 0) {
+        appDelegate.menubarController.statusItemView.hasNotifications = NO;
+    }
 }
 
 - (void)setTimerWithPoll:(float)poll {
@@ -148,8 +162,6 @@ static float      const kPollInterval = 60.0;
 }
 
 - (void)activatedNotification:(NSUserNotification *) notification {
-    NSLog(@"user info: %@", notification.userInfo);
-    
     NSURL *oauthUrl = [NSURL URLWithString:notification.userInfo[@"url"]];
     if( ![[NSWorkspace sharedWorkspace] openURL:oauthUrl] ) {
         NSLog(@"Failed to open url: %@",[oauthUrl description]);
