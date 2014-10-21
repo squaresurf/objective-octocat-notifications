@@ -44,9 +44,9 @@ void *kContextActivePanel = &kContextActivePanel;
                                                             diskCapacity:0
                                                                 diskPath:nil];
     [NSURLCache setSharedURLCache:sharedCache];
-    
+
     [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
-    
+
     // This calls objective-octocat-notifications:// uri scheme handler
     [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self andSelector:@selector(handleGetURLEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
 }
@@ -74,7 +74,7 @@ void *kContextActivePanel = &kContextActivePanel;
 - (void) handleGetURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent
 {
     NSURL *url = [NSURL URLWithString:[[event paramDescriptorForKeyword:keyDirectObject] stringValue]];
-    
+
     if ([[url host] caseInsensitiveCompare:@"oauthCallback"] == NSOrderedSame) {
         [[AFGithubOAuth sharedClient] oauthCallbackWith:url];
     } else {

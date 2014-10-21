@@ -19,7 +19,7 @@ static float      const kPollInterval = 60.0;
 
 + (void)startNotifications {
     NSString *token = [[AFGithubOAuth sharedClient] getToken];
-    
+
     if (token == nil) {
         return;
     }
@@ -35,7 +35,7 @@ static float      const kPollInterval = 60.0;
     dispatch_once(&onceToken, ^{
         _sharedClient = [[AFGithubClient alloc] initWithBaseURL:[NSURL URLWithString:kAFGithubBaseURLString]];
     });
-    
+
     return _sharedClient;
 }
 
@@ -44,7 +44,7 @@ static float      const kPollInterval = 60.0;
     if (!self) {
         return nil;
     }
-    
+
     [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
 
 	[self setDefaultHeader:@"Accept" value:@"application/json"];
@@ -55,13 +55,13 @@ static float      const kPollInterval = 60.0;
 - (void)checkForNewRelease
 {
     NSString *tags = @"repos/squaresurf/objective-octocat-notifications/tags";
-    
+
     [[AFGithubClient sharedClient] getPath:tags parameters:@{} success:^(AFHTTPRequestOperation *operation, id response) {
         if ([response count] > 0) {
             NSString *latestVersion = response[0][@"name"];
             if ([kAppVersion compare:latestVersion options:NSNumericSearch] == NSOrderedAscending) {
                 NSString *latestUrl = [NSString stringWithFormat:@"https://github.com/squaresurf/objective-octocat-notifications/releases/%@", latestVersion];
-                
+
                 NSUserNotification *macNotification = [[NSUserNotification alloc] init];
                 macNotification.title = @"New Release!";
                 macNotification.informativeText = @"Click here to download the latest release of Objective Octocat Notifications.";
@@ -91,7 +91,7 @@ static float      const kPollInterval = 60.0;
 
     [[AFGithubClient sharedClient] getPath:@"notifications" parameters:@{} success:^(AFHTTPRequestOperation *operation, id response) {
         NSMutableDictionary *activeNotifications = [[NSMutableDictionary alloc] init];
-        
+
         for (NSUserNotification *notification in macNotifications) {
             bool removeNotification = YES;
             NSString *notificationId = [[notification userInfo] valueForKey:@"id"];
@@ -101,14 +101,14 @@ static float      const kPollInterval = 60.0;
                     break;
                 }
             }
-            
+
             if (removeNotification) {
                 [defaultUserNotificationCenter removeDeliveredNotification:notification];
             } else {
                 [activeNotifications setObject:notification forKey:notificationId];
             }
         }
-        
+
         if ([response count] > 0) {
             appDelegate.menubarController.statusItemView.hasNotifications = YES;
 
@@ -133,7 +133,7 @@ static float      const kPollInterval = 60.0;
                 }
             }
         }
-        
+
         float max_poll_interval = [[[operation response] allHeaderFields][@"X-Poll-Interval"] floatValue];
         float poll = (max_poll_interval > kPollInterval) ? max_poll_interval : kPollInterval;
         [self setTimerWithPoll:poll];

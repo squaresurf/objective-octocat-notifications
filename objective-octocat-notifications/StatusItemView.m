@@ -26,7 +26,7 @@
     CGFloat itemHeight = [[NSStatusBar systemStatusBar] thickness];
     NSRect itemRect = NSMakeRect(0.0, 0.0, itemWidth, itemHeight);
     self = [super initWithFrame:itemRect];
-    
+
     if (self != nil) {
         _statusItem = statusItem;
         _statusItem.view = self;
@@ -53,16 +53,16 @@
         CGFloat red = 0.25490196078431;
         CGFloat green = 0.51372549019608;
         CGFloat blue = 0.76862745098039;
-        
+
         CGContextSetRGBFillColor (myContext, red, green, blue, 1);
 
         NSShadow* theShadow = [[NSShadow alloc] init];
         [theShadow setShadowOffset:NSMakeSize(0, 0)];
         [theShadow setShadowBlurRadius:8.0];
-        
+
         // Use a partially transparent color for shapes that overlap.
         [theShadow setShadowColor:[NSColor colorWithSRGBRed:red green:green blue:blue alpha:0.8]];
-        
+
         [theShadow set];
     } else {
         CGContextSetRGBFillColor (myContext, 0.1, 0.1, 0.1, 1);
@@ -71,7 +71,7 @@
     NSBezierPath *path = [NSBezierPath bezierPath];
     [path appendBezierPathWithOvalInRect:CGRectMake(8, 8, 8, 8)];
     [path fill];
-    
+
     [NSGraphicsContext restoreGraphicsState];
 }
 
@@ -91,7 +91,7 @@
     if (_isHighlighted == newFlag) {
         return;
     }
-    
+
     _isHighlighted = newFlag;
     [self setNeedsDisplay:YES];
 }
@@ -101,7 +101,7 @@
     if (_hasNotifications == hasNotifications) {
         return;
     }
-    
+
     _hasNotifications = hasNotifications;
     [self setNeedsDisplay:YES];
 }
