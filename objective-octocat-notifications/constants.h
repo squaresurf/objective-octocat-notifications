@@ -6,4 +6,4 @@
 //  objective-octocat-notifications
 //
 
-#define kAppVersion @"0.2.0"
+#define kAppVersion @"0.3.0"
