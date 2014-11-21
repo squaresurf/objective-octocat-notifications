@@ -12,6 +12,7 @@
 #import "GithubKeys.h"
 
 static NSString * const kAFGithubOAuthBaseURL = @"https://github.com/login/oauth/";
+static NSString * const kTokenScope = @"notifications,repo";
 
 // Security
 static NSMutableDictionary * AFKeychainQueryDictionaryWithIdentifier(NSString *identifier) {
@@ -44,8 +45,8 @@ static NSMutableDictionary * AFKeychainQueryDictionaryWithIdentifier(NSString *i
     }
 
     // Set up the keychain query dictionary.
-    self.keychainQueryDictionary = [NSDictionary dictionaryWithObjectsAndKeys:(__bridge id)kSecClassGenericPassword, kSecClass, [[NSBundle mainBundle] bundleIdentifier], kSecAttrService, @"OAuth Token", (__bridge id)kSecAttrAccount, nil];
-    
+    self.keychainQueryDictionary = [NSDictionary dictionaryWithObjectsAndKeys:(__bridge id)kSecClassGenericPassword, kSecClass, [[NSString alloc] initWithFormat:@"%@ scope:%@", [[NSBundle mainBundle] bundleIdentifier], kTokenScope ], kSecAttrService, @"OAuth Token", (__bridge id)kSecAttrAccount, nil];
+
     // Set up a random state string
     int length = 64;
     NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -71,7 +72,7 @@ static NSMutableDictionary * AFKeychainQueryDictionaryWithIdentifier(NSString *i
             if (token == nil) {
                 #if defined(GITHUB_CLIENT_ID) && defined(GITHUB_CLIENT_SECRET)
                     // Start OAuth2
-                    NSURL *oauthUrl = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"%@authorize?client_id=%@&scope=notifications&state=%@", kAFGithubOAuthBaseURL, GITHUB_CLIENT_ID, [self state]]];
+                    NSURL *oauthUrl = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"%@authorize?client_id=%@&scope=%@&state=%@", kAFGithubOAuthBaseURL, GITHUB_CLIENT_ID, kTokenScope, [self state]]];
                     if( ![[NSWorkspace sharedWorkspace] openURL:oauthUrl] ) {
                         NSLog(@"Failed to open url: %@",[oauthUrl description]);
                     }

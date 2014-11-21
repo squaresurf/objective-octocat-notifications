@@ -112,27 +112,37 @@ static float      const kPollInterval = 60.0;
         if ([response count] > 0) {
             appDelegate.menubarController.statusItemView.hasNotifications = YES;
 
+            // Create a block operations queue since we have to call another api to get the correct html url for the notification click.
+            NSBlockOperation *macNotificationQueue = [NSBlockOperation blockOperationWithBlock:^(){}];
+
             for (id notification in response) {
                 if ([activeNotifications objectForKey:notification[@"id"]] == Nil) {
-                    NSString *url = notification[@"subject"][@"url"];
-                    url = [url stringByReplacingOccurrencesOfString:@"api.github.com" withString:@"github.com"];
-                    url = [url stringByReplacingOccurrencesOfString:@"/pulls/" withString:@"/pull/"];
-                    url = [url stringByReplacingOccurrencesOfString:@"/repos/" withString:@"/"];
-                    
-                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
-                    NSDate *notificationDate = [dateFormatter dateFromString:notification[@"updated_at"]];
-                    
-                    NSUserNotification *macNotification = [[NSUserNotification alloc] init];
-                    macNotification.title = notification[@"subject"][@"type"];
-                    macNotification.subtitle = notification[@"repository"][@"full_name"];
-                    macNotification.informativeText = notification[@"subject"][@"title"];
-                    macNotification.userInfo = @{@"id": notification[@"id"], @"url": url};
-                    macNotification.deliveryDate = notificationDate;
-                    [defaultUserNotificationCenter deliverNotification:macNotification];
+                    [macNotificationQueue addExecutionBlock:^(){
+                        [[AFGithubClient sharedClient] getPath:notification[@"subject"][@"latest_comment_url"] parameters:@{} success:^(AFHTTPRequestOperation *operation, id response) {
+                            NSString *url = response[@"html_url"];
+                            
+                            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                            [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
+                            NSDate *notificationDate = [dateFormatter dateFromString:notification[@"updated_at"]];
+                            
+                            NSUserNotification *macNotification = [[NSUserNotification alloc] init];
+                            macNotification.title = notification[@"subject"][@"type"];
+                            macNotification.subtitle = notification[@"repository"][@"full_name"];
+                            macNotification.informativeText = notification[@"subject"][@"title"];
+                            macNotification.userInfo = @{@"id": notification[@"id"], @"url": url};
+                            macNotification.deliveryDate = notificationDate;
+                            [defaultUserNotificationCenter deliverNotification:macNotification];
+                            
+                        } failure:^(AFHTTPRequestOperation *operation, id json) {
+                            // Just log the error since we'll try again in a little bit.
+                            NSLog(@"error getting html url for mac notification: %@", json);
+                        }];
+                    }];
                 }
             }
+            [macNotificationQueue start];
         }
+        
 
         float max_poll_interval = [[[operation response] allHeaderFields][@"X-Poll-Interval"] floatValue];
         float poll = (max_poll_interval > kPollInterval) ? max_poll_interval : kPollInterval;
