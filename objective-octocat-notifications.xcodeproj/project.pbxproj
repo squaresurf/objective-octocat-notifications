@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		65400A4B19E456610062270D /* OonIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 65400A4A19E456610062270D /* OonIcon.m */; };
+		6594F157197429AA00CFC66E /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF8CCD55179A90C800B19CDD /* AppKit.framework */; };
+		65C51CF019E6D04F00512FB8 /* OonStatusBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C51CEF19E6D04F00512FB8 /* OonStatusBarController.m */; };
 		FF381EC1179E2F6B00A753B7 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = FF381EAF179E2F6B00A753B7 /* AFHTTPClient.m */; };
 		FF381EC2179E2F6B00A753B7 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = FF381EB1179E2F6B00A753B7 /* AFHTTPRequestOperation.m */; };
 		FF381EC3179E2F6B00A753B7 /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = FF381EB3179E2F6B00A753B7 /* AFImageRequestOperation.m */; };
@@ -19,11 +22,6 @@
 		FF381ECB179E301700A753B7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF381ECA179E301700A753B7 /* SystemConfiguration.framework */; };
 		FF381ED8179E388800A753B7 /* AFGithubClient.m in Sources */ = {isa = PBXBuildFile; fileRef = FF381ED7179E388800A753B7 /* AFGithubClient.m */; };
 		FF59B83F17A249CE004F9D08 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF59B83E17A249CE004F9D08 /* Security.framework */; };
-		FF744CA2186E4166009E4968 /* PanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF744CA1186E4166009E4968 /* PanelController.m */; };
-		FF744CA5186E4176009E4968 /* MenubarController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF744CA4186E4176009E4968 /* MenubarController.m */; };
-		FF744CAD186E479B009E4968 /* Panel.m in Sources */ = {isa = PBXBuildFile; fileRef = FF744CA8186E479B009E4968 /* Panel.m */; };
-		FF744CAE186E479B009E4968 /* StatusItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = FF744CAA186E479B009E4968 /* StatusItemView.m */; };
-		FF744CAF186E479B009E4968 /* BackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = FF744CAC186E479B009E4968 /* BackgroundView.m */; };
 		FF744CB2186E4968009E4968 /* Panel.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF744CB1186E4968009E4968 /* Panel.xib */; };
 		FF8241C117B2C93C00CBEFA8 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF8241C017B2C93C00CBEFA8 /* CoreServices.framework */; };
 		FF8CCD53179A90C800B19CDD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF8CCD52179A90C800B19CDD /* Cocoa.framework */; };
@@ -36,6 +34,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		65400A4919E456610062270D /* OonIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OonIcon.h; sourceTree = "<group>"; };
+		65400A4A19E456610062270D /* OonIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OonIcon.m; sourceTree = "<group>"; };
+		65C51CEE19E6D04F00512FB8 /* OonStatusBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OonStatusBarController.h; sourceTree = "<group>"; };
+		65C51CEF19E6D04F00512FB8 /* OonStatusBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OonStatusBarController.m; sourceTree = "<group>"; };
 		FF381EAE179E2F6B00A753B7 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		FF381EAF179E2F6B00A753B7 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		FF381EB0179E2F6B00A753B7 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -54,22 +56,12 @@
 		FF381EBD179E2F6B00A753B7 /* AFXMLRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFXMLRequestOperation.h; sourceTree = "<group>"; };
 		FF381EBE179E2F6B00A753B7 /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFXMLRequestOperation.m; sourceTree = "<group>"; };
 		FF381EBF179E2F6B00A753B7 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
-		FF381EC0179E2F6B00A753B7 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
+		FF381EC0179E2F6B00A753B7 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FF381ECA179E301700A753B7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		FF381ED6179E388800A753B7 /* AFGithubClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFGithubClient.h; sourceTree = "<group>"; };
 		FF381ED7179E388800A753B7 /* AFGithubClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFGithubClient.m; sourceTree = "<group>"; };
 		FF55B8321818137C008858A6 /* GithubKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GithubKeys.h; sourceTree = "<group>"; };
 		FF59B83E17A249CE004F9D08 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		FF744CA0186E4166009E4968 /* PanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanelController.h; sourceTree = "<group>"; };
-		FF744CA1186E4166009E4968 /* PanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PanelController.m; sourceTree = "<group>"; };
-		FF744CA3186E4176009E4968 /* MenubarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenubarController.h; sourceTree = "<group>"; };
-		FF744CA4186E4176009E4968 /* MenubarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenubarController.m; sourceTree = "<group>"; };
-		FF744CA7186E479B009E4968 /* Panel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Panel.h; sourceTree = "<group>"; };
-		FF744CA8186E479B009E4968 /* Panel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Panel.m; sourceTree = "<group>"; };
-		FF744CA9186E479B009E4968 /* StatusItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusItemView.h; sourceTree = "<group>"; };
-		FF744CAA186E479B009E4968 /* StatusItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusItemView.m; sourceTree = "<group>"; };
-		FF744CAB186E479B009E4968 /* BackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundView.h; sourceTree = "<group>"; };
-		FF744CAC186E479B009E4968 /* BackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundView.m; sourceTree = "<group>"; };
 		FF744CB1186E4968009E4968 /* Panel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Panel.xib; sourceTree = "<group>"; };
 		FF8241C017B2C93C00CBEFA8 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		FF8CCD4F179A90C800B19CDD /* objective-octocat-notifications.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "objective-octocat-notifications.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6594F157197429AA00CFC66E /* AppKit.framework in Frameworks */,
 				FF8241C117B2C93C00CBEFA8 /* CoreServices.framework in Frameworks */,
 				FF381ECB179E301700A753B7 /* SystemConfiguration.framework in Frameworks */,
 				FF59B83F17A249CE004F9D08 /* Security.framework in Frameworks */,
@@ -137,10 +130,8 @@
 			children = (
 				FF8CCD64179A90C900B19CDD /* AppDelegate.h */,
 				FF8CCD65179A90C900B19CDD /* AppDelegate.m */,
-				FF744CA3186E4176009E4968 /* MenubarController.h */,
-				FF744CA4186E4176009E4968 /* MenubarController.m */,
-				FF744CA0186E4166009E4968 /* PanelController.h */,
-				FF744CA1186E4166009E4968 /* PanelController.m */,
+				65C51CEE19E6D04F00512FB8 /* OonStatusBarController.h */,
+				65C51CEF19E6D04F00512FB8 /* OonStatusBarController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -148,12 +139,8 @@
 		FF744CA6186E46C8009E4968 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				FF744CA7186E479B009E4968 /* Panel.h */,
-				FF744CA8186E479B009E4968 /* Panel.m */,
-				FF744CA9186E479B009E4968 /* StatusItemView.h */,
-				FF744CAA186E479B009E4968 /* StatusItemView.m */,
-				FF744CAB186E479B009E4968 /* BackgroundView.h */,
-				FF744CAC186E479B009E4968 /* BackgroundView.m */,
+				65400A4919E456610062270D /* OonIcon.h */,
+				65400A4A19E456610062270D /* OonIcon.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -234,12 +221,12 @@
 			isa = PBXGroup;
 			children = (
 				FFE1BCFF18BE347400701C94 /* constants.h */,
+				FF8CCD61179A90C900B19CDD /* Credits.rtf */,
 				FF55B8321818137C008858A6 /* GithubKeys.h */,
-				FF8CCD5A179A90C900B19CDD /* objective-octocat-notifications-Info.plist */,
 				FF8CCD5B179A90C900B19CDD /* InfoPlist.strings */,
 				FF8CCD5E179A90C900B19CDD /* main.m */,
+				FF8CCD5A179A90C900B19CDD /* objective-octocat-notifications-Info.plist */,
 				FF8CCD60179A90C900B19CDD /* objective-octocat-notifications-Prefix.pch */,
-				FF8CCD61179A90C900B19CDD /* Credits.rtf */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -329,22 +316,19 @@
 			files = (
 				FF8CCD5F179A90C900B19CDD /* main.m in Sources */,
 				FF8CCD66179A90C900B19CDD /* AppDelegate.m in Sources */,
-				FF744CAD186E479B009E4968 /* Panel.m in Sources */,
 				FF381EC1179E2F6B00A753B7 /* AFHTTPClient.m in Sources */,
 				FF381EC2179E2F6B00A753B7 /* AFHTTPRequestOperation.m in Sources */,
-				FF744CAE186E479B009E4968 /* StatusItemView.m in Sources */,
+				65400A4B19E456610062270D /* OonIcon.m in Sources */,
 				FF381EC3179E2F6B00A753B7 /* AFImageRequestOperation.m in Sources */,
 				FF381EC4179E2F6B00A753B7 /* AFJSONRequestOperation.m in Sources */,
 				FF381EC5179E2F6B00A753B7 /* AFNetworkActivityIndicatorManager.m in Sources */,
-				FF744CA2186E4166009E4968 /* PanelController.m in Sources */,
+				65C51CF019E6D04F00512FB8 /* OonStatusBarController.m in Sources */,
 				FF381EC6179E2F6B00A753B7 /* AFPropertyListRequestOperation.m in Sources */,
 				FF381EC7179E2F6B00A753B7 /* AFURLConnectionOperation.m in Sources */,
 				FF381EC8179E2F6B00A753B7 /* AFXMLRequestOperation.m in Sources */,
 				FF381EC9179E2F6B00A753B7 /* UIImageView+AFNetworking.m in Sources */,
-				FF744CAF186E479B009E4968 /* BackgroundView.m in Sources */,
 				FF381ED8179E388800A753B7 /* AFGithubClient.m in Sources */,
 				FFD1ECB717ADA6A800027B1F /* AFGithubOAuth.m in Sources */,
-				FF744CA5186E4176009E4968 /* MenubarController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

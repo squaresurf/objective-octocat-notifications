@@ -84,7 +84,7 @@ static float      const kPollInterval = 60.0;
 
 - (void)getNotifications
 {
-    AppDelegate *appDelegate = [NSApp delegate];
+    AppDelegate *appDelegate = (AppDelegate *) [NSApp delegate];
 
     NSUserNotificationCenter *defaultUserNotificationCenter = [NSUserNotificationCenter defaultUserNotificationCenter];
     NSArray *macNotifications = [defaultUserNotificationCenter deliveredNotifications];
@@ -110,7 +110,7 @@ static float      const kPollInterval = 60.0;
         }
 
         if ([response count] > 0) {
-            appDelegate.menubarController.statusItemView.hasNotifications = YES;
+            [appDelegate.statusItemController setActiveStateTo:YES];
 
             // Create a block operations queue since we have to call another api to get the correct html url for the notification click.
             NSBlockOperation *macNotificationQueue = [NSBlockOperation blockOperationWithBlock:^(){}];
@@ -120,11 +120,11 @@ static float      const kPollInterval = 60.0;
                     [macNotificationQueue addExecutionBlock:^(){
                         [[AFGithubClient sharedClient] getPath:notification[@"subject"][@"latest_comment_url"] parameters:@{} success:^(AFHTTPRequestOperation *operation, id response) {
                             NSString *url = response[@"html_url"];
-                            
+
                             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                             [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
                             NSDate *notificationDate = [dateFormatter dateFromString:notification[@"updated_at"]];
-                            
+
                             NSUserNotification *macNotification = [[NSUserNotification alloc] init];
                             macNotification.title = notification[@"subject"][@"type"];
                             macNotification.subtitle = notification[@"repository"][@"full_name"];
@@ -132,7 +132,7 @@ static float      const kPollInterval = 60.0;
                             macNotification.userInfo = @{@"id": notification[@"id"], @"url": url};
                             macNotification.deliveryDate = notificationDate;
                             [defaultUserNotificationCenter deliverNotification:macNotification];
-                            
+
                         } failure:^(AFHTTPRequestOperation *operation, id json) {
                             // Just log the error since we'll try again in a little bit.
                             NSLog(@"error getting html url for mac notification: %@", json);
@@ -141,8 +141,10 @@ static float      const kPollInterval = 60.0;
                 }
             }
             [macNotificationQueue start];
+        } else if ([[defaultUserNotificationCenter deliveredNotifications] count] == 0) {
+            [appDelegate.statusItemController setActiveStateTo:NO];
         }
-        
+
 
         float max_poll_interval = [[[operation response] allHeaderFields][@"X-Poll-Interval"] floatValue];
         float poll = (max_poll_interval > kPollInterval) ? max_poll_interval : kPollInterval;
@@ -156,10 +158,6 @@ static float      const kPollInterval = 60.0;
             [self setTimerWithPoll:kPollInterval];
         }
     }];
-    
-    if ([[defaultUserNotificationCenter deliveredNotifications] count] == 0) {
-        appDelegate.menubarController.statusItemView.hasNotifications = NO;
-    }
 }
 
 - (void)setTimerWithPoll:(float)poll {

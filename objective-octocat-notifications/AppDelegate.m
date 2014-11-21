@@ -9,31 +9,20 @@
 #import "AppDelegate.h"
 #import "AFGithubClient.h"
 #import "AFGithubOAuth.h"
+#import "OonIcon.h"
 
 @implementation AppDelegate
 @class AFHTTPRequestOperation;
 
-@synthesize panelController = _panelController;
-@synthesize menubarController = _menubarController;
-
 #pragma mark -
 
-- (void)dealloc
+- (id)init
 {
-    [_panelController removeObserver:self forKeyPath:@"hasActivePanel"];
-}
-
-#pragma mark -
-
-void *kContextActivePanel = &kContextActivePanel;
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if (context == kContextActivePanel) {
-        self.menubarController.hasActiveIcon = self.panelController.hasActivePanel;
-    } else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    self = [super init];
+    if (self) {
+        _statusItemController = [[OonStatusBarController alloc] init];
     }
+    return self;
 }
 
 #pragma mark - NSApplicationDelegate
@@ -57,18 +46,11 @@ void *kContextActivePanel = &kContextActivePanel;
     if (userNotification) {
         [self userNotificationCenter:[NSUserNotificationCenter defaultUserNotificationCenter] didActivateNotification:userNotification];
     }
-
-    // Install icon into the menu bar
-    self.menubarController = [[MenubarController alloc] init];
-
     [AFGithubClient startNotifications];
 }
 
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
-{
-    // Explicitly remove the icon from the menu bar
-    self.menubarController = nil;
-    return NSTerminateNow;
+- (void) awakeFromNib {
+    [_statusItemController addTo:statusMenu];
 }
 
 - (void) handleGetURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent
@@ -82,39 +64,11 @@ void *kContextActivePanel = &kContextActivePanel;
     }
 }
 
-#pragma mark - Actions
-
-- (IBAction)togglePanel:(id)sender
-{
-    self.menubarController.hasActiveIcon = !self.menubarController.hasActiveIcon;
-    self.panelController.hasActivePanel = self.menubarController.hasActiveIcon;
-}
-
-#pragma mark - Public accessors
-
-- (PanelController *)panelController
-{
-    if (_panelController == nil) {
-        _panelController = [[PanelController alloc] initWithDelegate:self];
-        [_panelController addObserver:self forKeyPath:@"hasActivePanel" options:0 context:kContextActivePanel];
-    }
-    return _panelController;
-}
-
-#pragma mark - PanelControllerDelegate
-
-- (StatusItemView *)statusItemViewForPanelController:(PanelController *)controller
-{
-    return self.menubarController.statusItemView;
-}
-
 #pragma mark - NSUserNotificationCenterDelegate
 
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification {
     [center removeDeliveredNotification:notification];
-    if ([[center deliveredNotifications] count] == 0) {
-        self.menubarController.statusItemView.hasNotifications = NO;
-    }
+    [_statusItemController setActiveStateFromNotificationsCount];
     [[AFGithubClient sharedClient] activatedNotification:notification];
 }
 

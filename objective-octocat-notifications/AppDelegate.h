@@ -7,16 +7,15 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MenubarController.h"
-#import "PanelController.h"
+#import "OonStatusBarController.h"
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, NSUserNotificationCenterDelegate, PanelControllerDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate, NSUserNotificationCenterDelegate>
+{
+    IBOutlet NSMenu *statusMenu;
+}
 
-@property (nonatomic, strong) MenubarController *menubarController;
-@property (nonatomic, strong, readonly) PanelController *panelController;
+@property OonStatusBarController *statusItemController;
 
 - (void)handleGetURLEvent: (NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent;
-
-- (IBAction)togglePanel:(id)sender;
 
 @end
