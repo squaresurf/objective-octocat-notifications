@@ -70,7 +70,7 @@ static float      const kPollInterval = 60.0;
             }
         }
     } failure:^(AFHTTPRequestOperation *operation, id json) {
-        NSLog(@"error: %@", json);
+        [OonLog forLevel:OonLogError with:@"error: %@", json];
     }];
 
 
@@ -135,7 +135,7 @@ static float      const kPollInterval = 60.0;
 
                         } failure:^(AFHTTPRequestOperation *operation, id json) {
                             // Just log the error since we'll try again in a little bit.
-                            NSLog(@"error getting html url for mac notification: %@", json);
+                            [OonLog forLevel:OonLogError with:@"error getting html url for mac notification: %@", json];
                         }];
                     }];
                 }
@@ -154,14 +154,14 @@ static float      const kPollInterval = 60.0;
             [AFGithubOAuth clearToken];
             [AFGithubClient startNotifications];
         } else {
-            NSLog(@"error: %@", json);
+            [OonLog forLevel:OonLogError with:@"error: %@", json];
             [self setTimerWithPoll:kPollInterval];
         }
     }];
 }
 
 - (void)setTimerWithPoll:(float)poll {
-//    NSLog(@"Going to check for more notifications in %f seconds.", poll);
+    [OonLog forLevel:OonLogDebug with:@"Going to check for more notifications in %f seconds.", poll];
     [NSTimer scheduledTimerWithTimeInterval:poll
                                      target:self
                                    selector:@selector(getNotifications)
@@ -172,7 +172,7 @@ static float      const kPollInterval = 60.0;
 - (void)activatedNotification:(NSUserNotification *) notification {
     NSURL *oauthUrl = [NSURL URLWithString:notification.userInfo[@"url"]];
     if( ![[NSWorkspace sharedWorkspace] openURL:oauthUrl] ) {
-        NSLog(@"Failed to open url: %@",[oauthUrl description]);
+        [OonLog forLevel:OonLogError with:@"Failed to open url: %@",[oauthUrl description]];
     }
 }
 

@@ -10,6 +10,7 @@
 #import "AFGithubClient.h"
 #import "AFGithubOAuth.h"
 #import "OonIcon.h"
+#import "OonLog.h"
 
 @implementation AppDelegate
 @class AFHTTPRequestOperation;
@@ -60,7 +61,7 @@
     if ([[url host] caseInsensitiveCompare:@"oauthCallback"] == NSOrderedSame) {
         [[AFGithubOAuth sharedClient] oauthCallbackWith:url];
     } else {
-        NSLog(@"Don't know what to do with this url: %@", url);
+        [OonLog forLevel:OonLogWarn with:@"Don't know what to do with this url: %@", url];
     }
 }
 

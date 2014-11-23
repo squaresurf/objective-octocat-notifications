@@ -74,7 +74,7 @@ static NSMutableDictionary * AFKeychainQueryDictionaryWithIdentifier(NSString *i
                     // Start OAuth2
                     NSURL *oauthUrl = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"%@authorize?client_id=%@&scope=%@&state=%@", kAFGithubOAuthBaseURL, GITHUB_CLIENT_ID, kTokenScope, [self state]]];
                     if( ![[NSWorkspace sharedWorkspace] openURL:oauthUrl] ) {
-                        NSLog(@"Failed to open url: %@",[oauthUrl description]);
+                        [OonLog forLevel:OonLogError with:@"Failed to open url: %@",[oauthUrl description]];
                     }
                 #else
                     #error @"Missing GITHUB_TOKEN or GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET. Please read the authentication section of the README."
@@ -94,7 +94,7 @@ static NSMutableDictionary * AFKeychainQueryDictionaryWithIdentifier(NSString *i
     NSString *state = [query substringWithRange:[[[NSRegularExpression regularExpressionWithPattern:@"state=([^&=]*)" options:0 error:nil] firstMatchInString:query options:0 range:NSMakeRange(0, [query length])] rangeAtIndex:1]];
 
     if (![state isEqualToString:[self state]]) {
-        NSLog(@"OAuth state doesn't match. Can't continue.");
+        [OonLog forLevel:OonLogError with:@"OAuth state doesn't match. Can't continue."];
         return;
     }
 
@@ -130,7 +130,7 @@ static NSMutableDictionary * AFKeychainQueryDictionaryWithIdentifier(NSString *i
     }
 
     if (status != errSecSuccess) {
-        NSLog(@"Unable to store OAuth Token in Keychain.");
+        [OonLog forLevel:OonLogError with:@"Unable to store OAuth Token in Keychain."];
     }
 
     return (status == errSecSuccess);
@@ -144,7 +144,7 @@ static NSMutableDictionary * AFKeychainQueryDictionaryWithIdentifier(NSString *i
     CFDataRef result = nil;
 
     if (SecItemCopyMatching((__bridge CFDictionaryRef)queryDictionary, (CFTypeRef *)&result) != errSecSuccess) {
-        NSLog(@"Unable to fetch OAuth Token in Keychain.");
+        [OonLog forLevel:OonLogError with:@"Unable to fetch OAuth Token in Keychain."];
         return nil;
     }
 
@@ -158,14 +158,14 @@ static NSMutableDictionary * AFKeychainQueryDictionaryWithIdentifier(NSString *i
     SecKeychainItemRef item = nil;
 
     if (SecItemCopyMatching((__bridge CFDictionaryRef)queryDictionary, (CFTypeRef *)&item) != errSecSuccess) {
-        NSLog(@"Unable to find OAuth Token in Keychain for deletion.");
+        [OonLog forLevel:OonLogError with:@"Unable to find OAuth Token in Keychain for deletion."];
         return NO;
     }
 
     OSStatus status = SecKeychainItemDelete(item);
 
     if (status != errSecSuccess) {
-        NSLog(@"Unable to delete OAuth Token in Keychain.");
+        [OonLog forLevel:OonLogError with:@"Unable to delete OAuth Token in Keychain."];
     }
 
     return (status == errSecSuccess);

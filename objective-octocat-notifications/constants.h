@@ -6,4 +6,7 @@
 //  objective-octocat-notifications
 //
 
+#import "OonLog.h"
+
 #define kAppVersion @"0.3.0"
+#define kOonLogLevel OonLogDebug
