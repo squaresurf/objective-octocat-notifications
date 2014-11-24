@@ -8,5 +8,11 @@
 
 #import "OonLog.h"
 
+typedef enum : NSUInteger {
+    OonMacNotificationForGithubNotification = 1,
+    OonMacNotificationForAppVersionCheck,
+} OonMacNotificationType;
+
+#define kCheckForNewReleaseInterval 60 * 60 * 24
 #define kAppVersion @"0.3.0"
 #define kOonLogLevel OonLogDebug

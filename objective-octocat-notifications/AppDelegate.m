@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "AFGithubClientNoAuth.h"
 #import "AFGithubClient.h"
 #import "AFGithubOAuth.h"
 #import "OonIcon.h"
@@ -47,6 +48,7 @@
     if (userNotification) {
         [self userNotificationCenter:[NSUserNotificationCenter defaultUserNotificationCenter] didActivateNotification:userNotification];
     }
+    [AFGithubClientNoAuth checkForNewRelease];
     [AFGithubClient startNotifications];
 }
 
@@ -70,7 +72,11 @@
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification {
     [center removeDeliveredNotification:notification];
     [_statusItemController setActiveStateFromNotificationsCount];
-    [[AFGithubClient sharedClient] activatedNotification:notification];
+
+    NSURL *url = [NSURL URLWithString:notification.userInfo[@"url"]];
+    if( ![[NSWorkspace sharedWorkspace] openURL:url] ) {
+        [OonLog forLevel:OonLogError with:@"Failed to open url: %@",[url description]];
+    }
 }
 
 - (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification {

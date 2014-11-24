@@ -14,13 +14,9 @@
 
 + (AFGithubClient *)sharedClient;
 
-- (void)checkForNewRelease;
-
 - (void)getNotifications;
 
 - (void)setTimerWithPoll:(float) poll;
-
-- (void)activatedNotification:(NSUserNotification *) notification;
 
 @property (strong) NSString *state;
 

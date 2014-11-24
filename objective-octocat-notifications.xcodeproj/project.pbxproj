@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		65400A4B19E456610062270D /* OonIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 65400A4A19E456610062270D /* OonIcon.m */; };
 		65628CE71A21545A005A57FC /* OonLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 65628CE61A21545A005A57FC /* OonLog.m */; };
+		65628CED1A223787005A57FC /* AFGithubClientNoAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 65628CEC1A223787005A57FC /* AFGithubClientNoAuth.m */; };
 		6594F157197429AA00CFC66E /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF8CCD55179A90C800B19CDD /* AppKit.framework */; };
 		65C51CF019E6D04F00512FB8 /* OonStatusBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C51CEF19E6D04F00512FB8 /* OonStatusBarController.m */; };
 		FF381EC1179E2F6B00A753B7 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = FF381EAF179E2F6B00A753B7 /* AFHTTPClient.m */; };
@@ -39,6 +40,8 @@
 		65400A4A19E456610062270D /* OonIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OonIcon.m; sourceTree = "<group>"; };
 		65628CE51A21545A005A57FC /* OonLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OonLog.h; sourceTree = "<group>"; };
 		65628CE61A21545A005A57FC /* OonLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OonLog.m; sourceTree = "<group>"; };
+		65628CEB1A2236B5005A57FC /* AFGithubClientNoAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFGithubClientNoAuth.h; sourceTree = "<group>"; };
+		65628CEC1A223787005A57FC /* AFGithubClientNoAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFGithubClientNoAuth.m; sourceTree = "<group>"; };
 		65C51CEE19E6D04F00512FB8 /* OonStatusBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OonStatusBarController.h; sourceTree = "<group>"; };
 		65C51CEF19E6D04F00512FB8 /* OonStatusBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OonStatusBarController.m; sourceTree = "<group>"; };
 		FF381EAE179E2F6B00A753B7 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
@@ -162,6 +165,8 @@
 			children = (
 				FF381ED6179E388800A753B7 /* AFGithubClient.h */,
 				FF381ED7179E388800A753B7 /* AFGithubClient.m */,
+				65628CEB1A2236B5005A57FC /* AFGithubClientNoAuth.h */,
+				65628CEC1A223787005A57FC /* AFGithubClientNoAuth.m */,
 				FFD1ECB517ADA6A800027B1F /* AFGithubOAuth.h */,
 				FFD1ECB617ADA6A800027B1F /* AFGithubOAuth.m */,
 				65628CE51A21545A005A57FC /* OonLog.h */,
@@ -324,6 +329,7 @@
 				FF8CCD66179A90C900B19CDD /* AppDelegate.m in Sources */,
 				FF381EC1179E2F6B00A753B7 /* AFHTTPClient.m in Sources */,
 				FF381EC2179E2F6B00A753B7 /* AFHTTPRequestOperation.m in Sources */,
+				65628CED1A223787005A57FC /* AFGithubClientNoAuth.m in Sources */,
 				65400A4B19E456610062270D /* OonIcon.m in Sources */,
 				FF381EC3179E2F6B00A753B7 /* AFImageRequestOperation.m in Sources */,
 				FF381EC4179E2F6B00A753B7 /* AFJSONRequestOperation.m in Sources */,

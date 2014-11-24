@@ -12,7 +12,6 @@
 #import "AppDelegate.h"
 
 static NSString * const kAFGithubBaseURLString = @"https://api.github.com/";
-static NSString * const kOAuthBaseUrl = @"https://github.com/login/oauth/";
 static float      const kPollInterval = 60.0;
 
 @implementation AFGithubClient
@@ -25,7 +24,6 @@ static float      const kPollInterval = 60.0;
     }
 
     [[AFGithubClient sharedClient] setDefaultHeader:@"Authorization" value:[[NSString alloc] initWithFormat:@"token %@", token]];
-    [[AFGithubClient sharedClient] checkForNewRelease];
     [[AFGithubClient sharedClient] getNotifications];
 }
 
@@ -52,36 +50,6 @@ static float      const kPollInterval = 60.0;
     return self;
 }
 
-- (void)checkForNewRelease
-{
-    NSString *tags = @"repos/squaresurf/objective-octocat-notifications/tags";
-
-    [[AFGithubClient sharedClient] getPath:tags parameters:@{} success:^(AFHTTPRequestOperation *operation, id response) {
-        if ([response count] > 0) {
-            NSString *latestVersion = response[0][@"name"];
-            if ([kAppVersion compare:latestVersion options:NSNumericSearch] == NSOrderedAscending) {
-                NSString *latestUrl = [NSString stringWithFormat:@"https://github.com/squaresurf/objective-octocat-notifications/releases/%@", latestVersion];
-
-                NSUserNotification *macNotification = [[NSUserNotification alloc] init];
-                macNotification.title = @"New Release!";
-                macNotification.informativeText = @"Click here to download the latest release of Objective Octocat Notifications.";
-                macNotification.userInfo = @{@"url": latestUrl};
-                [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:macNotification];
-            }
-        }
-    } failure:^(AFHTTPRequestOperation *operation, id json) {
-        [OonLog forLevel:OonLogError with:@"error: %@", json];
-    }];
-
-
-    // Check again in a day.
-    [NSTimer scheduledTimerWithTimeInterval:60 * 60 * 24
-                                     target:self
-                                   selector:@selector(checkForNewRelease)
-                                   userInfo:nil
-                                    repeats:NO];
-}
-
 - (void)getNotifications
 {
     AppDelegate *appDelegate = (AppDelegate *) [NSApp delegate];
@@ -90,11 +58,19 @@ static float      const kPollInterval = 60.0;
     NSArray *macNotifications = [defaultUserNotificationCenter deliveredNotifications];
 
     [[AFGithubClient sharedClient] getPath:@"notifications" parameters:@{} success:^(AFHTTPRequestOperation *operation, id response) {
+        [OonLog forLevel:OonLogDebug with:@"Got response from notifications:\n%@", response];
+
         NSMutableDictionary *activeNotifications = [[NSMutableDictionary alloc] init];
 
         for (NSUserNotification *notification in macNotifications) {
             bool removeNotification = YES;
             NSString *notificationId = [[notification userInfo] valueForKey:@"id"];
+            NSNumber *notificationType = [[notification userInfo] valueForKey:@"type"];
+
+            if ([notificationType unsignedLongValue] != OonMacNotificationForGithubNotification) {
+                continue;
+            }
+
             for (id githubNotification in response) {
                 if ([notificationId compare:githubNotification[@"id"]] == NSOrderedSame) {
                     removeNotification = NO;
@@ -119,6 +95,7 @@ static float      const kPollInterval = 60.0;
                 if ([activeNotifications objectForKey:notification[@"id"]] == Nil) {
                     [macNotificationQueue addExecutionBlock:^(){
                         [[AFGithubClient sharedClient] getPath:notification[@"subject"][@"latest_comment_url"] parameters:@{} success:^(AFHTTPRequestOperation *operation, id response) {
+                            [OonLog forLevel:OonLogDebug with:@"response from %@:\n%@", notification[@"subject"][@"latest_comment_url"], response];
                             NSString *url = response[@"html_url"];
 
                             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -129,7 +106,7 @@ static float      const kPollInterval = 60.0;
                             macNotification.title = notification[@"subject"][@"type"];
                             macNotification.subtitle = notification[@"repository"][@"full_name"];
                             macNotification.informativeText = notification[@"subject"][@"title"];
-                            macNotification.userInfo = @{@"id": notification[@"id"], @"url": url};
+                            macNotification.userInfo = @{@"id": notification[@"id"], @"url": url, @"type": [NSNumber numberWithUnsignedLong:OonMacNotificationForGithubNotification]};
                             macNotification.deliveryDate = notificationDate;
                             [defaultUserNotificationCenter deliverNotification:macNotification];
 
@@ -167,13 +144,6 @@ static float      const kPollInterval = 60.0;
                                    selector:@selector(getNotifications)
                                    userInfo:nil
                                     repeats:NO];
-}
-
-- (void)activatedNotification:(NSUserNotification *) notification {
-    NSURL *oauthUrl = [NSURL URLWithString:notification.userInfo[@"url"]];
-    if( ![[NSWorkspace sharedWorkspace] openURL:oauthUrl] ) {
-        [OonLog forLevel:OonLogError with:@"Failed to open url: %@",[oauthUrl description]];
-    }
 }
 
 @end
