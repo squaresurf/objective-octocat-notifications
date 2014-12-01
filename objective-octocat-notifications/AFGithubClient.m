@@ -111,8 +111,14 @@ static float      const kPollInterval = 60.0;
                             [defaultUserNotificationCenter deliverNotification:macNotification];
 
                         } failure:^(AFHTTPRequestOperation *operation, id json) {
-                            // Just log the error since we'll try again in a little bit.
-                            [OonLog forLevel:OonLogError with:@"error getting html url for mac notification: %@", json];
+                            // Without access to a private repo we will just get a 404 response.
+                            if ([operation.response statusCode] == 401 || [operation.response statusCode] == 404) {
+                                [AFGithubOAuth clearToken];
+                                [AFGithubClient startNotifications];
+                            } else {
+                                // Just log the error since we'll try again in a little bit.
+                                [OonLog forLevel:OonLogError with:@"error getting html url for mac notification: %@", json];
+                            }
                         }];
                     }];
                 }
