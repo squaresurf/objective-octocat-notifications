@@ -73,6 +73,10 @@
     [center removeDeliveredNotification:notification];
     [_statusItemController setActiveStateFromNotificationsCount];
 
+    if (kMarkNotificationsAsViewedOnClick && [notification.userInfo[@"type"] unsignedLongValue] == OonMacNotificationForGithubNotification) {
+        [AFGithubClient markAsViewed:notification.userInfo[@"id"]];
+    }
+
     NSURL *url = [NSURL URLWithString:notification.userInfo[@"url"]];
     if( ![[NSWorkspace sharedWorkspace] openURL:url] ) {
         [OonLog forLevel:OonLogError with:@"Failed to open url: %@",[url description]];

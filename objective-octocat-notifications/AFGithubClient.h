@@ -14,6 +14,8 @@
 
 + (AFGithubClient *)sharedClient;
 
++ (void)markAsViewed:(NSString *)notificationId;
+
 - (void)getNotifications;
 
 - (void)setTimerWithPoll:(float) poll;

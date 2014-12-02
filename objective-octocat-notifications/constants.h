@@ -13,6 +13,8 @@ typedef enum : NSUInteger {
     OonMacNotificationForAppVersionCheck,
 } OonMacNotificationType;
 
-#define kCheckForNewReleaseInterval 60 * 60 * 24
 #define kAppVersion @"0.3.0"
 #define kOonLogLevel OonLogDebug
+
+#define kCheckForNewReleaseInterval 60 * 60 * 24
+#define kMarkNotificationsAsViewedOnClick 1

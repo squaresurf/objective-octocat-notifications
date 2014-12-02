@@ -37,6 +37,15 @@ static float      const kPollInterval = 60.0;
     return _sharedClient;
 }
 
++ (void)markAsViewed:(NSString *)notificationId {
+    NSString *path = [NSString stringWithFormat:@"notifications/threads/%@", notificationId];
+    [[AFGithubClient sharedClient] patchPath:path parameters:@{} success:^(AFHTTPRequestOperation *operation, id response) {
+        [OonLog forLevel:OonLogDebug with:@"Marked %@ as read.", notificationId];
+    } failure:^(AFHTTPRequestOperation *operation, id json) {
+        [OonLog forLevel:OonLogError with:@"Couldn't mark %@ as read.", notificationId];
+    }];
+}
+
 - (id)initWithBaseURL:(NSURL *)url {
     self = [super initWithBaseURL:url];
     if (!self) {
