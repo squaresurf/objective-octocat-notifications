@@ -10,6 +10,7 @@
 		65400A4B19E456610062270D /* OonIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 65400A4A19E456610062270D /* OonIcon.m */; };
 		65628CE71A21545A005A57FC /* OonLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 65628CE61A21545A005A57FC /* OonLog.m */; };
 		65628CED1A223787005A57FC /* AFGithubClientNoAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 65628CEC1A223787005A57FC /* AFGithubClientNoAuth.m */; };
+		6580CEE01A35603F00CC5B6F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6580CEDF1A35603F00CC5B6F /* Images.xcassets */; };
 		6594F157197429AA00CFC66E /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF8CCD55179A90C800B19CDD /* AppKit.framework */; };
 		65C51CF019E6D04F00512FB8 /* OonStatusBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C51CEF19E6D04F00512FB8 /* OonStatusBarController.m */; };
 		FF381EC1179E2F6B00A753B7 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = FF381EAF179E2F6B00A753B7 /* AFHTTPClient.m */; };
@@ -42,6 +43,7 @@
 		65628CE61A21545A005A57FC /* OonLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OonLog.m; sourceTree = "<group>"; };
 		65628CEB1A2236B5005A57FC /* AFGithubClientNoAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFGithubClientNoAuth.h; sourceTree = "<group>"; };
 		65628CEC1A223787005A57FC /* AFGithubClientNoAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFGithubClientNoAuth.m; sourceTree = "<group>"; };
+		6580CEDF1A35603F00CC5B6F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		65C51CEE19E6D04F00512FB8 /* OonStatusBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OonStatusBarController.h; sourceTree = "<group>"; };
 		65C51CEF19E6D04F00512FB8 /* OonStatusBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OonStatusBarController.m; sourceTree = "<group>"; };
 		FF381EAE179E2F6B00A753B7 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				FF744CB3186E4D9C009E4968 /* Models */,
 				FF744CA6186E46C8009E4968 /* Views */,
 				FF744CB0186E4939009E4968 /* XIBs */,
+				6580CEDF1A35603F00CC5B6F /* Images.xcassets */,
 				FF8CCD59179A90C900B19CDD /* Supporting Files */,
 			);
 			path = "objective-octocat-notifications";
@@ -294,6 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF8CCD5D179A90C900B19CDD /* InfoPlist.strings in Resources */,
+				6580CEE01A35603F00CC5B6F /* Images.xcassets in Resources */,
 				FF8CCD63179A90C900B19CDD /* Credits.rtf in Resources */,
 				FF744CB2186E4968009E4968 /* Panel.xib in Resources */,
 				FF8CCD69179A90C900B19CDD /* MainMenu.xib in Resources */,
@@ -434,6 +438,7 @@
 		FF8CCD6D179A90C900B19CDD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "objective-octocat-notifications/objective-octocat-notifications-Prefix.pch";
@@ -446,6 +451,7 @@
 		FF8CCD6E179A90C900B19CDD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "objective-octocat-notifications/objective-octocat-notifications-Prefix.pch";
