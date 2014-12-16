@@ -19,6 +19,9 @@ static NSString * const kAFGithubBaseURLString = @"https://api.github.com/";
     NSUserNotificationCenter *defaultUserNotificationCenter = [NSUserNotificationCenter defaultUserNotificationCenter];
     NSArray *macNotifications = [defaultUserNotificationCenter deliveredNotifications];
 
+    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    [OonLog forLevel:OonLogDebug with:@"AppVersion: %@", appVersion];
+
     [[self sharedClient] getPath:@"repos/squaresurf/objective-octocat-notifications/tags" parameters:@{} success:^(AFHTTPRequestOperation *operation, id response) {
         [OonLog forLevel:OonLogDebug with:@"Response when checking for new Release: %@", response];
 
@@ -34,7 +37,8 @@ static NSString * const kAFGithubBaseURLString = @"https://api.github.com/";
 
         if ([response count] > 0) {
             NSString *latestVersion = response[0][@"name"];
-            if ([kAppVersion compare:latestVersion options:NSNumericSearch] == NSOrderedAscending) {
+            [OonLog forLevel:OonLogDebug with:@"latestVersion: %@", latestVersion];
+            if ([appVersion compare:latestVersion options:NSNumericSearch] == NSOrderedAscending) {
                 if (newVersionNotification == nil) {
                     NSString *latestUrl = @"https://github.com/squaresurf/objective-octocat-notifications/releases/latest";
 

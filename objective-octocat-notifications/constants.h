@@ -16,9 +16,6 @@ typedef enum : NSUInteger {
     OonMacNotificationForAppVersionCheck,
 } OonMacNotificationType;
 
-// The current version of the app.
-#define kAppVersion @"0.3.0"
-
 // The severity of log messages to log.
 #define kOonLogLevel OonLogDebug
 
