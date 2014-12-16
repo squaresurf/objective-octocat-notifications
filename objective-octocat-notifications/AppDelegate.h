@@ -14,8 +14,14 @@
     IBOutlet NSMenu *statusMenu;
 }
 
+/**
+ * The controller for the status bar menu.
+ */
 @property OonStatusBarController *statusItemController;
 
-- (void)handleGetURLEvent: (NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent;
+/**
+ * This is a handler for url events such as the OAuth callback.
+ */
+ - (void)handleGetURLEvent: (NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent;
 
 @end
