@@ -224,7 +224,6 @@
 				FF744CB3186E4D9C009E4968 /* Models */,
 				FF744CA6186E46C8009E4968 /* Views */,
 				FF744CB0186E4939009E4968 /* XIBs */,
-				6580CEDF1A35603F00CC5B6F /* Images.xcassets */,
 				FF8CCD59179A90C900B19CDD /* Supporting Files */,
 			);
 			path = "objective-octocat-notifications";
@@ -233,6 +232,7 @@
 		FF8CCD59179A90C900B19CDD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6580CEDF1A35603F00CC5B6F /* Images.xcassets */,
 				FFE1BCFF18BE347400701C94 /* constants.h */,
 				FF8CCD61179A90C900B19CDD /* Credits.rtf */,
 				FF55B8321818137C008858A6 /* GithubKeys.h */,
