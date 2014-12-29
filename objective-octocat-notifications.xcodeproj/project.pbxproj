@@ -10,6 +10,7 @@
 		65400A4B19E456610062270D /* OonIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 65400A4A19E456610062270D /* OonIcon.m */; };
 		65628CE71A21545A005A57FC /* OonLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 65628CE61A21545A005A57FC /* OonLog.m */; };
 		65628CED1A223787005A57FC /* AFGithubClientNoAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 65628CEC1A223787005A57FC /* AFGithubClientNoAuth.m */; };
+		6579F0C11A2F669F00448350 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6579F0C01A2F669F00448350 /* CoreFoundation.framework */; };
 		6580CEE01A35603F00CC5B6F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6580CEDF1A35603F00CC5B6F /* Images.xcassets */; };
 		6594F157197429AA00CFC66E /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF8CCD55179A90C800B19CDD /* AppKit.framework */; };
 		65C51CF019E6D04F00512FB8 /* OonStatusBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C51CEF19E6D04F00512FB8 /* OonStatusBarController.m */; };
@@ -44,6 +45,7 @@
 		65628CE61A21545A005A57FC /* OonLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OonLog.m; sourceTree = "<group>"; };
 		65628CEB1A2236B5005A57FC /* AFGithubClientNoAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFGithubClientNoAuth.h; sourceTree = "<group>"; };
 		65628CEC1A223787005A57FC /* AFGithubClientNoAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFGithubClientNoAuth.m; sourceTree = "<group>"; };
+		6579F0C01A2F669F00448350 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		6580CEDF1A35603F00CC5B6F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		65C51CEE19E6D04F00512FB8 /* OonStatusBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OonStatusBarController.h; sourceTree = "<group>"; };
 		65C51CEF19E6D04F00512FB8 /* OonStatusBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OonStatusBarController.m; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6579F0C11A2F669F00448350 /* CoreFoundation.framework in Frameworks */,
 				6594F157197429AA00CFC66E /* AppKit.framework in Frameworks */,
 				FF8241C117B2C93C00CBEFA8 /* CoreServices.framework in Frameworks */,
 				FF381ECB179E301700A753B7 /* SystemConfiguration.framework in Frameworks */,
@@ -203,6 +206,7 @@
 		FF8CCD51179A90C800B19CDD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6579F0C01A2F669F00448350 /* CoreFoundation.framework */,
 				FF8CCD52179A90C800B19CDD /* Cocoa.framework */,
 				FF8CCD54179A90C800B19CDD /* Other Frameworks */,
 			);

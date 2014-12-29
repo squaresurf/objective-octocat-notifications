@@ -44,10 +44,9 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
-    NSUserNotification *userNotification = [notification.userInfo objectForKey:@"NSApplicationLaunchUserNotificationKey"];
-    if (userNotification) {
-        [self userNotificationCenter:[NSUserNotificationCenter defaultUserNotificationCenter] didActivateNotification:userNotification];
-    }
+    _haveAskedIfWeShouldAddToLoginItemsDefaultsKey = [NSString stringWithFormat:@"%@.haveAskedIfWeShouldAddToLoginItems", [[NSRunningApplication currentApplication] bundleIdentifier]];
+
+    [self addToLoginItems];
     [AFGithubClientNoAuth checkForNewRelease];
     [AFGithubClient startNotifications];
 }
@@ -55,6 +54,8 @@
 - (void) awakeFromNib {
     [_statusItemController addTo:statusMenu];
 }
+
+#pragma mark -
 
 - (void) handleGetURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent
 {
@@ -64,6 +65,47 @@
         [[AFGithubOAuth sharedClient] oauthCallbackWith:url];
     } else {
         [OonLog forLevel:OonLogWarn with:@"Don't know what to do with this url: %@", url];
+    }
+}
+
+- (BOOL)shouldAddToLoginItems {
+    [NSUserDefaults resetStandardUserDefaults];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+    // Uncomment to test new install workflow.
+    // [defaults removeObjectForKey:_haveAskedIfWeShouldAddToLoginItemsDefaultsKey];
+
+    if ([defaults boolForKey:_haveAskedIfWeShouldAddToLoginItemsDefaultsKey]) {
+        return false;
+    }
+
+    CFDictionaryRef dialogOptions = (__bridge CFDictionaryRef)@{
+                                                                (__bridge NSString *)kCFUserNotificationAlertHeaderKey: @"Objective Octocat Notifications",
+                                                                (__bridge NSString *)kCFUserNotificationAlertMessageKey:
+                                                                    @"Would you like Objective Octocat Notifications to start on login?",
+                                                                (__bridge NSString *)kCFUserNotificationDefaultButtonTitleKey: @"No",
+                                                                (__bridge NSString *)kCFUserNotificationAlternateButtonTitleKey: @"Yes"};
+
+    CFUserNotificationRef dialog = CFUserNotificationCreate(kCFAllocatorDefault, 0, kCFUserNotificationNoteAlertLevel, NULL, dialogOptions);
+
+    CFOptionFlags shouldEnableLoginStart;
+    CFUserNotificationReceiveResponse(dialog, 0, &shouldEnableLoginStart);
+    [OonLog forLevel:OonLogDebug with:@"state: %lu", shouldEnableLoginStart];
+
+    [defaults setBool:true forKey:_haveAskedIfWeShouldAddToLoginItemsDefaultsKey];
+
+    return shouldEnableLoginStart == 1;
+}
+
+- (void)addToLoginItems {
+    if (![self shouldAddToLoginItems]) {
+        return;
+    }
+
+    LSSharedFileListItemRef item = LSSharedFileListInsertItemURL(LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL), kLSSharedFileListItemLast, NULL, NULL, (__bridge CFURLRef)[[NSBundle mainBundle] bundleURL], NULL, NULL);
+
+    if (item) {
+        CFRelease(item);
     }
 }
 
