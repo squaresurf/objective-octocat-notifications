@@ -14,7 +14,7 @@
 		6580CEE01A35603F00CC5B6F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6580CEDF1A35603F00CC5B6F /* Images.xcassets */; };
 		6594F157197429AA00CFC66E /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF8CCD55179A90C800B19CDD /* AppKit.framework */; };
 		65C51CF019E6D04F00512FB8 /* OonStatusBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C51CEF19E6D04F00512FB8 /* OonStatusBarController.m */; };
-		65EA1B7C1A4B72AA00D91084 /* GithubAvatar.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EA1B7B1A4B72AA00D91084 /* GithubAvatar.m */; };
+		65EA1B7C1A4B72AA00D91084 /* OonNotificationContentImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EA1B7B1A4B72AA00D91084 /* OonNotificationContentImage.m */; };
 		FF381EC1179E2F6B00A753B7 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = FF381EAF179E2F6B00A753B7 /* AFHTTPClient.m */; };
 		FF381EC2179E2F6B00A753B7 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = FF381EB1179E2F6B00A753B7 /* AFHTTPRequestOperation.m */; };
 		FF381EC3179E2F6B00A753B7 /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = FF381EB3179E2F6B00A753B7 /* AFImageRequestOperation.m */; };
@@ -49,8 +49,8 @@
 		6580CEDF1A35603F00CC5B6F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		65C51CEE19E6D04F00512FB8 /* OonStatusBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OonStatusBarController.h; sourceTree = "<group>"; };
 		65C51CEF19E6D04F00512FB8 /* OonStatusBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OonStatusBarController.m; sourceTree = "<group>"; };
-		65EA1B7A1A4B72AA00D91084 /* GithubAvatar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GithubAvatar.h; sourceTree = "<group>"; };
-		65EA1B7B1A4B72AA00D91084 /* GithubAvatar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GithubAvatar.m; sourceTree = "<group>"; };
+		65EA1B7A1A4B72AA00D91084 /* OonNotificationContentImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OonNotificationContentImage.h; sourceTree = "<group>"; };
+		65EA1B7B1A4B72AA00D91084 /* OonNotificationContentImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OonNotificationContentImage.m; sourceTree = "<group>"; };
 		FF381EAE179E2F6B00A753B7 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		FF381EAF179E2F6B00A753B7 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		FF381EB0179E2F6B00A753B7 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -153,8 +153,8 @@
 		FF744CA6186E46C8009E4968 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				65EA1B7A1A4B72AA00D91084 /* GithubAvatar.h */,
-				65EA1B7B1A4B72AA00D91084 /* GithubAvatar.m */,
+				65EA1B7A1A4B72AA00D91084 /* OonNotificationContentImage.h */,
+				65EA1B7B1A4B72AA00D91084 /* OonNotificationContentImage.m */,
 				65400A4919E456610062270D /* OonIcon.h */,
 				65400A4A19E456610062270D /* OonIcon.m */,
 			);
@@ -350,7 +350,7 @@
 				65C51CF019E6D04F00512FB8 /* OonStatusBarController.m in Sources */,
 				FF381EC6179E2F6B00A753B7 /* AFPropertyListRequestOperation.m in Sources */,
 				FF381EC7179E2F6B00A753B7 /* AFURLConnectionOperation.m in Sources */,
-				65EA1B7C1A4B72AA00D91084 /* GithubAvatar.m in Sources */,
+				65EA1B7C1A4B72AA00D91084 /* OonNotificationContentImage.m in Sources */,
 				FF381EC8179E2F6B00A753B7 /* AFXMLRequestOperation.m in Sources */,
 				FF381EC9179E2F6B00A753B7 /* UIImageView+AFNetworking.m in Sources */,
 				FF381ED8179E388800A753B7 /* AFGithubClient.m in Sources */,

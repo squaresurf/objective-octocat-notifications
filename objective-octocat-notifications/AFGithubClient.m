@@ -10,7 +10,7 @@
 #import "AFJSONRequestOperation.h"
 #import "AFGithubOAuth.h"
 #import "AppDelegate.h"
-#import "GithubAvatar.h"
+#import "OonNotificationContentImage.h"
 
 static NSString * const kAFGithubBaseURLString = @"https://api.github.com/";
 static float      const kPollInterval = 60.0;
@@ -114,7 +114,7 @@ static float      const kPollInterval = 60.0;
 
                             NSUserNotification *macNotification = [[NSUserNotification alloc] init];
 
-                            macNotification.contentImage = [GithubAvatar avatarFromURL:[NSURL URLWithString:notification[@"repository"][@"owner"][@"avatar_url"]]];
+                            macNotification.contentImage = [OonNotificationContentImage imageFromURL:[NSURL URLWithString:notification[@"repository"][@"owner"][@"avatar_url"]]];
                             macNotification.title = notification[@"subject"][@"type"];
                             macNotification.subtitle = notification[@"repository"][@"full_name"];
                             macNotification.informativeText = notification[@"subject"][@"title"];
