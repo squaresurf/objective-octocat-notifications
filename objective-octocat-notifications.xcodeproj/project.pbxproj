@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		65400A4B19E456610062270D /* OonIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 65400A4A19E456610062270D /* OonIcon.m */; };
+		6544F82B1A6035610072334E /* status-icon-good.png in Resources */ = {isa = PBXBuildFile; fileRef = 6544F8281A6035610072334E /* status-icon-good.png */; };
+		6544F82C1A6035610072334E /* status-icon-major.png in Resources */ = {isa = PBXBuildFile; fileRef = 6544F8291A6035610072334E /* status-icon-major.png */; };
+		6544F82D1A6035610072334E /* status-icon-minor.png in Resources */ = {isa = PBXBuildFile; fileRef = 6544F82A1A6035610072334E /* status-icon-minor.png */; };
+		655418711A53D7F40011BC84 /* AFGithubStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 655418701A53D7F40011BC84 /* AFGithubStatus.m */; };
 		65628CE71A21545A005A57FC /* OonLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 65628CE61A21545A005A57FC /* OonLog.m */; };
 		65628CED1A223787005A57FC /* AFGithubClientNoAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 65628CEC1A223787005A57FC /* AFGithubClientNoAuth.m */; };
 		6579F0C11A2F669F00448350 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6579F0C01A2F669F00448350 /* CoreFoundation.framework */; };
@@ -41,6 +45,11 @@
 /* Begin PBXFileReference section */
 		65400A4919E456610062270D /* OonIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OonIcon.h; sourceTree = "<group>"; };
 		65400A4A19E456610062270D /* OonIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OonIcon.m; sourceTree = "<group>"; };
+		6544F8281A6035610072334E /* status-icon-good.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "status-icon-good.png"; sourceTree = "<group>"; };
+		6544F8291A6035610072334E /* status-icon-major.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "status-icon-major.png"; sourceTree = "<group>"; };
+		6544F82A1A6035610072334E /* status-icon-minor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "status-icon-minor.png"; sourceTree = "<group>"; };
+		6554186F1A53D7F40011BC84 /* AFGithubStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFGithubStatus.h; sourceTree = "<group>"; };
+		655418701A53D7F40011BC84 /* AFGithubStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFGithubStatus.m; sourceTree = "<group>"; };
 		65628CE51A21545A005A57FC /* OonLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OonLog.h; sourceTree = "<group>"; };
 		65628CE61A21545A005A57FC /* OonLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OonLog.m; sourceTree = "<group>"; };
 		65628CEB1A2236B5005A57FC /* AFGithubClientNoAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFGithubClientNoAuth.h; sourceTree = "<group>"; };
@@ -179,6 +188,8 @@
 				65628CEC1A223787005A57FC /* AFGithubClientNoAuth.m */,
 				FFD1ECB517ADA6A800027B1F /* AFGithubOAuth.h */,
 				FFD1ECB617ADA6A800027B1F /* AFGithubOAuth.m */,
+				6554186F1A53D7F40011BC84 /* AFGithubStatus.h */,
+				655418701A53D7F40011BC84 /* AFGithubStatus.m */,
 				65628CE51A21545A005A57FC /* OonLog.h */,
 				65628CE61A21545A005A57FC /* OonLog.m */,
 			);
@@ -241,6 +252,9 @@
 		FF8CCD59179A90C900B19CDD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6544F8281A6035610072334E /* status-icon-good.png */,
+				6544F8291A6035610072334E /* status-icon-major.png */,
+				6544F82A1A6035610072334E /* status-icon-minor.png */,
 				6580CEDF1A35603F00CC5B6F /* Images.xcassets */,
 				FFE1BCFF18BE347400701C94 /* constants.h */,
 				FF8CCD61179A90C900B19CDD /* Credits.rtf */,
@@ -309,7 +323,10 @@
 				6580CEE01A35603F00CC5B6F /* Images.xcassets in Resources */,
 				FF8CCD63179A90C900B19CDD /* Credits.rtf in Resources */,
 				FF744CB2186E4968009E4968 /* Panel.xib in Resources */,
+				6544F82D1A6035610072334E /* status-icon-minor.png in Resources */,
 				FF8CCD69179A90C900B19CDD /* MainMenu.xib in Resources */,
+				6544F82B1A6035610072334E /* status-icon-good.png in Resources */,
+				6544F82C1A6035610072334E /* status-icon-major.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,6 +365,7 @@
 				FF381EC4179E2F6B00A753B7 /* AFJSONRequestOperation.m in Sources */,
 				FF381EC5179E2F6B00A753B7 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				65C51CF019E6D04F00512FB8 /* OonStatusBarController.m in Sources */,
+				655418711A53D7F40011BC84 /* AFGithubStatus.m in Sources */,
 				FF381EC6179E2F6B00A753B7 /* AFPropertyListRequestOperation.m in Sources */,
 				FF381EC7179E2F6B00A753B7 /* AFURLConnectionOperation.m in Sources */,
 				65EA1B7C1A4B72AA00D91084 /* OonNotificationContentImage.m in Sources */,

@@ -10,6 +10,7 @@
 #import "AFGithubClientNoAuth.h"
 #import "AFGithubClient.h"
 #import "AFGithubOAuth.h"
+#import "AFGithubStatus.h"
 #import "OonIcon.h"
 #import "OonLog.h"
 
@@ -47,6 +48,7 @@
     _haveAskedIfWeShouldAddToLoginItemsDefaultsKey = [NSString stringWithFormat:@"%@.haveAskedIfWeShouldAddToLoginItems", [[NSRunningApplication currentApplication] bundleIdentifier]];
 
     [self addToLoginItems];
+    [[AFGithubStatus sharedClient] check];
     [AFGithubClientNoAuth checkForNewRelease];
     [AFGithubClient startNotifications];
 }

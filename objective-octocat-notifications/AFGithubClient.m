@@ -13,7 +13,6 @@
 #import "OonNotificationContentImage.h"
 
 static NSString * const kAFGithubBaseURLString = @"https://api.github.com/";
-static float      const kPollInterval = 60.0;
 
 @implementation AFGithubClient
 

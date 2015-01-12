@@ -10,10 +10,11 @@
 
 #import "OonLog.h"
 
-// Setup a global notification type enum to be used for Github user notifications or app version checks.
+// Setup a global notification type enum to be used for Github user notifications, app version checks, and Github status notifications.
 typedef enum : NSUInteger {
     OonMacNotificationForGithubNotification = 1,
     OonMacNotificationForAppVersionCheck,
+    OonMacNotificationForGithubStatus,
 } OonMacNotificationType;
 
 // The severity of log messages to log.
@@ -21,6 +22,9 @@ typedef enum : NSUInteger {
 
 // How often should we check for new releases? (Set in seconds)
 #define kCheckForNewReleaseInterval 60 * 60 * 24
+
+// The optimistic amount of time between github and github status api calls.
+#define kPollInterval 60.0
 
 // Whether or not notifications should be marked via the API when clicked.
 #define kMarkNotificationsAsViewedOnClick 1
