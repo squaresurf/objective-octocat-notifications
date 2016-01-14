@@ -92,7 +92,6 @@
 
     CFOptionFlags shouldEnableLoginStart;
     CFUserNotificationReceiveResponse(dialog, 0, &shouldEnableLoginStart);
-    [OonLog forLevel:OonLogDebug with:@"state: %lu", shouldEnableLoginStart];
 
     [defaults setBool:true forKey:_haveAskedIfWeShouldAddToLoginItemsDefaultsKey];
 

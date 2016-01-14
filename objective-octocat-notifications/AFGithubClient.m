@@ -67,14 +67,21 @@ static NSString * const kAFGithubBaseURLString = @"https://api.github.com/";
     NSArray *macNotifications = [defaultUserNotificationCenter deliveredNotifications];
 
     [[AFGithubClient sharedClient] getPath:@"notifications" parameters:@{} success:^(AFHTTPRequestOperation *operation, id response) {
+        [OonLog forLevel:OonLogDebug with:@"Received %d notifications in response.", [response count]];
         [OonLog forLevel:OonLogDebug with:@"Got response from notifications:\n%@", response];
 
         NSMutableDictionary *activeNotifications = [[NSMutableDictionary alloc] init];
+        NSUserNotification *countNotification;
 
         for (NSUserNotification *notification in macNotifications) {
             bool removeNotification = YES;
             NSString *notificationId = [[notification userInfo] valueForKey:@"id"];
             NSNumber *notificationType = [[notification userInfo] valueForKey:@"type"];
+
+            if ([notificationType unsignedLongValue] == OonMacNotificationForGithubNotificationCount) {
+                countNotification = notification;
+                continue;
+            }
 
             if ([notificationType unsignedLongValue] != OonMacNotificationForGithubNotification) {
                 continue;
@@ -97,44 +104,89 @@ static NSString * const kAFGithubBaseURLString = @"https://api.github.com/";
         if ([response count] > 0) {
             [appDelegate.statusItemController setActiveStateTo:YES];
 
-            // Create a block operations queue since we have to call another api to get the correct html url for the notification click.
-            NSBlockOperation *macNotificationQueue = [NSBlockOperation blockOperationWithBlock:^(){}];
+            if ([response count] > kMaxMacNotifications) {
+                for (id key in activeNotifications) {
+                    NSUserNotification *notification = [activeNotifications objectForKey:key];
+                    NSNumber *notificationType = [[notification userInfo] valueForKey:@"type"];
 
-            for (id notification in response) {
-                if ([activeNotifications objectForKey:notification[@"id"]] == Nil) {
-                    [macNotificationQueue addExecutionBlock:^(){
-                        [[AFGithubClient sharedClient] getPath:notification[@"subject"][@"latest_comment_url"] parameters:@{} success:^(AFHTTPRequestOperation *operation, id response) {
-                            [OonLog forLevel:OonLogDebug with:@"response from %@:\n%@", notification[@"subject"][@"latest_comment_url"], response];
-                            NSString *url = response[@"html_url"];
+                    if ([notificationType unsignedLongValue] != OonMacNotificationForGithubNotification) {
+                        continue;
+                    }
 
-                            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                            [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
-                            NSDate *notificationDate = [dateFormatter dateFromString:notification[@"updated_at"]];
-
-                            NSUserNotification *macNotification = [[NSUserNotification alloc] init];
-
-                            macNotification.contentImage = [OonNotificationContentImage imageFromURL:[NSURL URLWithString:notification[@"repository"][@"owner"][@"avatar_url"]]];
-                            macNotification.title = notification[@"subject"][@"type"];
-                            macNotification.subtitle = notification[@"repository"][@"full_name"];
-                            macNotification.informativeText = notification[@"subject"][@"title"];
-                            macNotification.userInfo = @{@"id": notification[@"id"], @"url": url, @"type": [NSNumber numberWithUnsignedLong:OonMacNotificationForGithubNotification]};
-                            macNotification.deliveryDate = notificationDate;
-                            [defaultUserNotificationCenter deliverNotification:macNotification];
-
-                        } failure:^(AFHTTPRequestOperation *operation, id json) {
-                            // Without access to a private repo we will just get a 404 response.
-                            if ([operation.response statusCode] == 401 || [operation.response statusCode] == 404) {
-                                [AFGithubOAuth clearToken];
-                                [AFGithubClient startNotifications];
-                            } else {
-                                // Just log the error since we'll try again in a little bit.
-                                [OonLog forLevel:OonLogError with:@"error getting html url for mac notification: %@", json];
-                            }
-                        }];
-                    }];
+                    [defaultUserNotificationCenter removeDeliveredNotification:notification];
                 }
+
+                bool postCountNotification = YES;
+                if (countNotification) {
+                    if ([response count] == [[[countNotification userInfo] valueForKey:@"count"] unsignedLongValue]) {
+                        postCountNotification = NO;
+                    } else {
+                        [defaultUserNotificationCenter removeDeliveredNotification:countNotification];
+                    }
+                }
+
+                if (postCountNotification) {
+                    NSUserNotification *macNotification = [[NSUserNotification alloc] init];
+
+                    macNotification.title = @"Github Notifications";
+
+                    NSString *responseCount;
+                    if ([response count] == kMaxGithubNotificationsReturned) {
+                        responseCount = @"50+";
+                    } else {
+                        responseCount = [NSString stringWithFormat:@"%lu", [response count]];
+                    }
+                    macNotification.subtitle = [NSString stringWithFormat:@"%@ notifications", responseCount];
+
+                    macNotification.informativeText = @"Click to go to the Github notification center.";
+                    macNotification.userInfo = @{@"url": @"https://github.com/notifications", @"count": [NSNumber numberWithUnsignedLong:[response count]], @"type": [NSNumber numberWithUnsignedLong:OonMacNotificationForGithubNotificationCount]};
+
+                    [defaultUserNotificationCenter deliverNotification:macNotification];
+                }
+
+            } else {
+                if (countNotification) {
+                    [defaultUserNotificationCenter removeDeliveredNotification:countNotification];
+                }
+
+                // Create a block operations queue since we have to call another api to get the correct html url for the notification click.
+                NSBlockOperation *macNotificationQueue = [NSBlockOperation blockOperationWithBlock:^(){}];
+
+                for (id notification in response) {
+                    if ([activeNotifications objectForKey:notification[@"id"]] == Nil) {
+                        [macNotificationQueue addExecutionBlock:^(){
+                            [[AFGithubClient sharedClient] getPath:notification[@"subject"][@"latest_comment_url"] parameters:@{} success:^(AFHTTPRequestOperation *operation, id response) {
+                                [OonLog forLevel:OonLogDebug with:@"response from %@:\n%@", notification[@"subject"][@"latest_comment_url"], response];
+                                NSString *url = response[@"html_url"];
+
+                                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                                [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
+                                NSDate *notificationDate = [dateFormatter dateFromString:notification[@"updated_at"]];
+
+                                NSUserNotification *macNotification = [[NSUserNotification alloc] init];
+
+                                macNotification.contentImage = [OonNotificationContentImage imageFromURL:[NSURL URLWithString:notification[@"repository"][@"owner"][@"avatar_url"]]];
+                                macNotification.title = notification[@"subject"][@"type"];
+                                macNotification.subtitle = notification[@"repository"][@"full_name"];
+                                macNotification.informativeText = notification[@"subject"][@"title"];
+                                macNotification.userInfo = @{@"id": notification[@"id"], @"url": url, @"type": [NSNumber numberWithUnsignedLong:OonMacNotificationForGithubNotification]};
+                                macNotification.deliveryDate = notificationDate;
+                                [defaultUserNotificationCenter deliverNotification:macNotification];
+                            } failure:^(AFHTTPRequestOperation *operation, id json) {
+                                // Without access to a private repo we will just get a 404 response.
+                                if ([operation.response statusCode] == 401 || [operation.response statusCode] == 404) {
+                                    [AFGithubOAuth clearToken];
+                                    [AFGithubClient startNotifications];
+                                } else {
+                                    // Just log the error since we'll try again in a little bit.
+                                    [OonLog forLevel:OonLogError with:@"error getting html url for mac notification: %@", json];
+                                }
+                            }];
+                        }];
+                    }
+                }
+                [macNotificationQueue start];
             }
-            [macNotificationQueue start];
         } else if ([[defaultUserNotificationCenter deliveredNotifications] count] == 0) {
             [appDelegate.statusItemController setActiveStateTo:NO];
         }

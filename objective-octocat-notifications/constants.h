@@ -15,6 +15,7 @@ typedef enum : NSUInteger {
     OonMacNotificationForGithubNotification = 1,
     OonMacNotificationForAppVersionCheck,
     OonMacNotificationForGithubStatus,
+    OonMacNotificationForGithubNotificationCount,
 } OonMacNotificationType;
 
 // The severity of log messages to log.
@@ -28,3 +29,9 @@ typedef enum : NSUInteger {
 
 // Whether or not notifications should be marked via the API when clicked.
 #define kMarkNotificationsAsViewedOnClick 1
+
+// The max number of Mac notifications before we just post a single notification with a count that will take the user to the Github notifications page.
+#define kMaxMacNotifications 20
+
+// The max number of Github notifications they will return from their api.
+#define kMaxGithubNotificationsReturned 50
