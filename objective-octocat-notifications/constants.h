@@ -19,7 +19,7 @@ typedef enum : NSUInteger {
 } OonMacNotificationType;
 
 // The severity of log messages to log.
-#define kOonLogLevel OonLogDebug
+#define kOonLogLevel OonLogWarn
 
 // How often should we check for new releases? (Set in seconds)
 #define kCheckForNewReleaseInterval 60 * 60 * 24
