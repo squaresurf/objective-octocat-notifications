@@ -29,7 +29,7 @@ static NSString * const kAFGithubBaseURLString = @"https://api.github.com/";
         for (NSUserNotification *notification in macNotifications) {
             NSNumber *notificationType = [[notification userInfo] valueForKey:@"type"];
 
-            if ([notificationType unsignedLongValue] != OonMacNotificationForAppVersionCheck) {
+            if ([notificationType unsignedLongValue] == OonMacNotificationForAppVersionCheck) {
                 newVersionNotification = notification;
                 break;
             }
