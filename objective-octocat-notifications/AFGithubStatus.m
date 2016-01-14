@@ -64,6 +64,13 @@ static NSString * const kAFGithubStatusBaseURLString = @"https://status.github.c
         AppDelegate *appDelegate = (AppDelegate *) [NSApp delegate];
         [appDelegate.statusItemController setActiveStateTo:YES];
 
+        NSUserNotificationCenter *defaultUserNotificationCenter = [NSUserNotificationCenter defaultUserNotificationCenter];
+        for (NSUserNotification *notification in [defaultUserNotificationCenter deliveredNotifications]) {
+            if ([[[notification userInfo] valueForKey:@"type"] unsignedLongValue] == OonMacNotificationForGithubStatus) {
+                [defaultUserNotificationCenter removeDeliveredNotification:notification];
+            }
+        }
+
         [OonLog forLevel:OonLogDebug with:@"Last Github Status Message: %@", response];
 
         NSUserNotification *macNotification = [[NSUserNotification alloc] init];
@@ -77,7 +84,7 @@ static NSString * const kAFGithubStatusBaseURLString = @"https://status.github.c
         macNotification.informativeText = response[@"body"];
         macNotification.userInfo = @{@"url": kAFGithubStatusBaseURLString, @"type": [NSNumber numberWithUnsignedLong:OonMacNotificationForGithubStatus]};
         macNotification.deliveryDate = notificationDate;
-        [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:macNotification];
+        [defaultUserNotificationCenter deliverNotification:macNotification];
 
         // Save the date of the last status we received so we don't show it again.
         [defaults setObject:response[@"created_on"] forKey:_lastStatusMessageDateDefaultsKey];
