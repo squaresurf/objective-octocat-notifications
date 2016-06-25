@@ -153,9 +153,14 @@ static NSString * const kAFGithubBaseURLString = @"https://api.github.com/";
                 NSBlockOperation *macNotificationQueue = [NSBlockOperation blockOperationWithBlock:^(){}];
 
                 for (id notification in response) {
+                    NSString *path = notification[@"subject"][@"latest_comment_url"];
+                    if (path == (id)[NSNull null]) {
+                        path = notification[@"subject"][@"url"];
+                    }
+
                     if ([activeNotifications objectForKey:notification[@"id"]] == Nil) {
                         [macNotificationQueue addExecutionBlock:^(){
-                            [[AFGithubClient sharedClient] getPath:notification[@"subject"][@"latest_comment_url"] parameters:@{} success:^(AFHTTPRequestOperation *operation, id response) {
+                            [[AFGithubClient sharedClient] getPath:path parameters:@{} success:^(AFHTTPRequestOperation *operation, id response) {
                                 [OonLog forLevel:OonLogDebug with:@"response from %@:\n%@", notification[@"subject"][@"latest_comment_url"], response];
                                 NSString *url = response[@"html_url"];
 
