@@ -4,6 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.2]
+### Fixed
+- Fix crash from null path.
+
 ## [1.0.1]
 ### Fixed
 - [Issue #40](https://github.com/squaresurf/objective-octocat-notifications/issues/40): New Version Notification doesn't post.
