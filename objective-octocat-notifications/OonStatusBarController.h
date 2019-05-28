@@ -16,6 +16,7 @@
 {
     NSStatusItem *statusItem;
     OonIcon *defaultIcon;
+    OonIcon *defaultDarkIcon;
     OonIcon *hasNotificationsIcon;
 }
 

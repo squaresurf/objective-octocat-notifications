@@ -35,12 +35,20 @@
     NSURLCache *sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:0
                                                             diskCapacity:0
                                                                 diskPath:nil];
+
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(appearanceChanged:) name:@"AppleInterfaceThemeChangedNotification" object:nil];
+
+
     [NSURLCache setSharedURLCache:sharedCache];
 
     [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
 
     // This calls objective-octocat-notifications:// uri scheme handler
     [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self andSelector:@selector(handleGetURLEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
+}
+
+- (void)appearanceChanged:(NSNotification *)notify {
+    [_statusItemController setActiveStateFromNotificationsCount];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification

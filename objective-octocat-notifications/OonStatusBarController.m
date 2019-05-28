@@ -16,6 +16,7 @@
     self = [super init];
     if (self) {
         defaultIcon = [OonIcon forStatusBarFrom:OonIconStatusBarDefault];
+        defaultDarkIcon = [OonIcon forStatusBarFrom:OonIconStatusBarActive];
         hasNotificationsIcon = [OonIcon forStatusBarFrom:OonIconStatusBarHasNotifications];
         statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
     }
@@ -35,7 +36,11 @@
     if (hasNotifications) {
         [statusItem setImage:hasNotificationsIcon];
     } else {
-        [statusItem setImage:defaultIcon];
+        if ([[[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"] isEqualToString:@"Dark"]) {
+            [statusItem setImage:defaultDarkIcon];
+        } else {
+            [statusItem setImage:defaultIcon];
+        }
     }
 }
 
