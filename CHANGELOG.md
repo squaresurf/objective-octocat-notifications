@@ -4,6 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.3]
+### Fixed
+- Recurring github status notification when status is good.
+- Invisible icon when in dark mode.
+
 ## [1.0.2]
 ### Fixed
 - Fix crash from null path.
