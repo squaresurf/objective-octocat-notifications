@@ -13,7 +13,7 @@
 #import "OonLog.h"
 #import "OonNotificationContentImage.h"
 
-static NSString * const kAFGithubStatusBaseURLString = @"https://status.github.com/";
+static NSString * const kAFGithubStatusBaseURLString = @"https://www.githubstatus.com/";
 
 @implementation AFGithubStatus
 
@@ -46,16 +46,16 @@ static NSString * const kAFGithubStatusBaseURLString = @"https://status.github.c
 
 - (void)check
 {
-    [self getPath:@"api/last-message.json" parameters:@{} success:^(AFHTTPRequestOperation *operation, id response) {
+    [self getPath:@"api/v2/status.json" parameters:@{} success:^(AFHTTPRequestOperation *operation, id response) {
         [NSUserDefaults resetStandardUserDefaults];
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
         // Uncomment to test new install workflow.
-        // [defaults removeObjectForKey:_lastStatusMessageDateDefaultsKey];
+        // [defaults removeObjectForKey:self->_lastStatusMessageDateDefaultsKey];
 
-        NSString *lastStatusMessageDate = [defaults stringForKey:_lastStatusMessageDateDefaultsKey];
+        NSString *lastStatusMessageDate = [defaults stringForKey:self->_lastStatusMessageDateDefaultsKey];
 
-        if (lastStatusMessageDate && NSOrderedSame == [lastStatusMessageDate compare:response[@"created_on"]]) {
+        if (lastStatusMessageDate && NSOrderedSame == [lastStatusMessageDate compare:response[@"page"][@"updated_at"]]) {
             [OonLog forLevel:OonLogDebug with:@"We've already shown the status, so nothing to do here."];
             [self setTimerWithPoll:kPollInterval];
             return;
@@ -77,17 +77,25 @@ static NSString * const kAFGithubStatusBaseURLString = @"https://status.github.c
 
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
-        NSDate *notificationDate = [dateFormatter dateFromString:response[@"created_on"]];
+        NSDate *notificationDate = [dateFormatter dateFromString:response[@"page"][@"updated_at"]];
 
-        macNotification.contentImage = [NSImage imageNamed:[NSString stringWithFormat:@"status-icon-%@.png", response[@"status"]]];
+        NSString *imageStatus = @"major"; // major and critical statuses
+        if ([response[@"status"][@"indicator"] isEqualToString:@"none"]) {
+            imageStatus = @"good";
+        }
+        if ([response[@"status"][@"indicator"] isEqualToString:@"minor"]) {
+            imageStatus = @"minor";
+        }
+
+        macNotification.contentImage = [NSImage imageNamed:[NSString stringWithFormat:@"status-icon-%@.png", imageStatus]];
         macNotification.title = @"Github Status";
-        macNotification.informativeText = response[@"body"];
-        macNotification.userInfo = @{@"url": kAFGithubStatusBaseURLString, @"type": [NSNumber numberWithUnsignedLong:OonMacNotificationForGithubStatus]};
+        macNotification.informativeText = response[@"status"][@"description"];
+        macNotification.userInfo = @{@"url": response[@"page"][@"url"], @"type": [NSNumber numberWithUnsignedLong:OonMacNotificationForGithubStatus]};
         macNotification.deliveryDate = notificationDate;
         [defaultUserNotificationCenter deliverNotification:macNotification];
 
         // Save the date of the last status we received so we don't show it again.
-        [defaults setObject:response[@"created_on"] forKey:_lastStatusMessageDateDefaultsKey];
+        [defaults setObject:response[@"page"][@"updated_at"] forKey:self->_lastStatusMessageDateDefaultsKey];
 
         [self setTimerWithPoll:kPollInterval];
     } failure:^(AFHTTPRequestOperation *operation, id json) {
